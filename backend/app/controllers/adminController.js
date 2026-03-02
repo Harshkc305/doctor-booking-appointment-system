@@ -1,6 +1,8 @@
 const Admin=require("../models/adminModel")
 const bcrypt=require("bcryptjs")
 const cloudinary=require("../config/cloudunaryConfig")
+const jwt=require("jsonwebtoken")
+
 
 
 
@@ -90,21 +92,40 @@ class AdminController{
                 }
 
                 const admin=await Admin.findOne({email})
-                
-                if (admin){
-                    const isMatch=await bcrypt.compare(password,admin.password)
-                    if(isMatch){
-                        console.log("Admin login successful")
-                        res.redirect("/admin-dashboard")
-                    }else{
-                        console.log("Admin login failed")
-                        res.redirect("/admin-login-page")
-                    }
-                }else{
-                    console.log("Admin login failed")
+
+                if(!admin){
+                    console.log("Admin not found")
+                    return res.redirect("/admin-login-page")
                 }
+
+                
+                
+                const isMatch=await bcrypt.compare(password,admin.password)
+                if(!isMatch){
+                    console.log("Incorrect password")
+                    res.redirect("/admin-login-page")
+                }
+
+                const token=jwt.sign(
+                    {
+                        admin_id:admin._id,
+                        emsil:admin.email,
+                        role:admin.role
+                    },
+                    process.env.JWT_SECRET,
+                    {expiresIn:"2h"}
+                )
+
+                if(token){
+                    res.cookie("AdminToken",token);
+                    return res.redirect("/admin-dashboard")
+                }else{
+                    console.log("Token generation failed")
+                }
+               
             }catch(error){
                 console.log("Error in AdminLogin",error)
+                res.redirect("/admin-login-page")
             }
         }
 

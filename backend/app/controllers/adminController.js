@@ -2,6 +2,7 @@ const Admin=require("../models/adminModel")
 const bcrypt=require("bcryptjs")
 const cloudinary=require("../config/cloudunaryConfig")
 const jwt=require("jsonwebtoken")
+// const { generateToken, generateRefreshToken } = require("../helper/token")
 
 
 
@@ -115,6 +116,9 @@ class AdminController{
                     process.env.JWT_SECRET,
                     {expiresIn:"2h"}
                 )
+
+                // const token=generateToken(admin);
+                // const refreshToken=generateRefreshToken(admin);
 
                 if(token){
                     res.cookie("AdminToken",token);

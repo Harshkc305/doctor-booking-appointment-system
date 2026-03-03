@@ -30,6 +30,10 @@ const adminSchema=new mongoose.Schema({
     imageId:{
         type:String,
         default:""
+    },
+    refreshToken: {
+        type: String,
+        default: ""
     }
 },{
     timestamps:true,

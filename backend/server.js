@@ -1,11 +1,25 @@
 require("dotenv").config();
 const express = require("express")
-const dbcon=require("./app/config/dbcon")
-const path = require("path");
 const app = express();
+const cors=require("cors")
+const dbcon=require("./app/config/dbcon")
+const cookieParser=require("cookie-parser")
+const path = require("path");
 
+const limiter=require("./app/utils/ratelimiter")
 
+// connect to database
 dbcon();
+
+// cors
+app.use(cors());
+
+// limiter
+app.use(limiter);
+
+
+// cookie parser
+app.use(cookieParser());
 
 app.set("view engine", "ejs");
 app.set("views", "views");

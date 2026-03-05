@@ -218,6 +218,18 @@ class AdminController{
             }
         }
 
+        // forget password page
+        async forgetpasswordPage(req,res){
+            try{
+                res.render("forgetPassword",{
+                    title:"Forget Password Page",
+                    user:req.user
+                })
+            }catch(error){
+                console.log("Error in forgetpasswordPage",error)
+            }
+        }
+
         // Admin Dashboard
         async AdminDashboard(req,res){
             try{

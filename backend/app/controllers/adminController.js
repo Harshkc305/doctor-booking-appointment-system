@@ -1,12 +1,15 @@
 const Admin=require("../models/adminModel")
+const Doctor=require("../models/doctorModel")
+
 const bcrypt=require("bcryptjs")
 const cloudinary=require("../config/cloudunaryConfig")
 const jwt=require("jsonwebtoken")
 const sendEmailVerificationOTP=require("../helper/sendEmail")
 const EmailVerifyModel=require("../models/otpModel")
+const transporter= require("../config/emailConfig")
 // const { generateToken, generateRefreshToken } = require("../helper/token")
 
-
+const Specialization=require("../models/specialization")
 
 
 class AdminController{
@@ -14,8 +17,9 @@ class AdminController{
     // Admin Register Page
     async AdminRegisterPage(req,res){
         try{
-            res.render("register",{
+            res.render("admin/register",{
                 title:"Admin Register Page",
+                user:req.user
             })
 
         }catch(error){
@@ -83,7 +87,7 @@ class AdminController{
 
     async otpPage(req,res){
         try{
-            res.render("otpPage",{
+            res.render("admin/otpPage",{
                 title:"OTP Verification Page",
                 user:req.user
             })
@@ -151,8 +155,9 @@ class AdminController{
     // Admin Login Page
      async AdminLoginPage(req,res){
         try{
-            res.render("login",{
+            res.render("admin/login",{
                 title:"Admin Login Page",
+                    user:req.user
             })
         }catch(error){
             console.log("Error in AdminLoginPage",error)
@@ -195,6 +200,7 @@ class AdminController{
                 const token=jwt.sign(
                     {
                         user_id:user._id,
+                        name:user.name,
                         email:user.email,
                         role:user.role
                     },
@@ -219,14 +225,137 @@ class AdminController{
         }
 
         // forget password page
-        async forgetpasswordPage(req,res){
+        async forgetPasswordPage(req,res){
             try{
-                res.render("forgetPassword",{
+                res.render("admin/forgetPasswordPage",{
                     title:"Forget Password Page",
                     user:req.user
                 })
             }catch(error){
                 console.log("Error in forgetpasswordPage",error)
+            }
+        }
+
+        // send forget password OTP to email
+        async sendForgetPasswordLink(req,res){
+            try{
+                const{email}=req.body;
+                if(!email){
+                    console.log("Email is required")
+
+                }
+                const user=await Admin.findOne({email})
+                if(!user){
+                    console.log("admin not found")
+                }
+
+                const secret=user._id+process.env.JWT_SECRET;
+                const token=jwt.sign(
+                    {userId:user._id},
+                    secret,
+                    {expiresIn:"15m"}
+                )
+
+                const resetLink=`${process.env.BACKEND_HOST}/reset-password/${user._id}/${token}`
+
+                await transporter.sendMail({
+                    from:process.env.EMAIL_FROM,
+                    to:user.email,
+                    subject:"Password Reset Link",
+                    html:`<p>hello ${user.name}</p>
+                    <p>Click the link to reset your password: <a href="${resetLink}">Reset Password</a></p>`,
+                })
+
+                console.log("password reset link sent to email")
+
+            }catch(error){
+                console.log("Error in sendForgetPasswordLink",error)
+            }
+        }
+
+        // reset password page
+        async resetPasswordPage(req,res){
+            try{
+                const {id,token}=req.params;
+
+                res.render("admin/resetPassword",{
+                    title:"reset passowrd page",
+                    user:req.user,
+                    userId:id,
+                    token:token
+                })
+
+            }catch(error){
+                console.log("Error in resetPasswordPage",error)
+            }
+        }
+
+        // reset password logic will be implemented
+
+        async resetPassword(req,res){
+            try{
+                const {password,confirm_Password}=req.body;
+                const {id,token}=req.params;
+
+                const user=await Admin.findById(id);
+                if(!user){
+                    console.log("Admin not found")
+                }
+
+                // token verify
+
+                const secret=user._id + process.env.JWT_SECRET;
+                jwt.verify(token,secret)
+
+                if(!password||!confirm_Password){
+                    console.log("All fields are required")
+
+                }
+                if(password!==confirm_Password){
+                    console.log("Password and confirm password do not match")
+                }
+
+                const hashedpassword=await bcrypt.hash(password,10);
+
+                await Admin.findByIdAndUpdate(id,{
+                    $set:{password:hashedpassword}
+                })
+
+                res.redirect("/admin-login-page")
+
+            }catch(error){
+                console.log("Error in resetPassword",error)
+            }
+        }
+
+        async AdminUserManagement(req,res){
+            try{
+                const user=await Admin.find()
+                res.render("admin/userPage",{
+                    title:"User Page",
+                    user:req.user,
+                    data:user
+                })
+
+            }catch(error){
+                console.log("Error in userPage",error)
+            }
+        }
+
+        async AdminDeleteUser(req,res){
+            try{
+                const{id}=req.params;
+                const user=await Admin.findById(id);
+                if(!user){
+                    console.log("Admin not found")
+                } 
+                if(user.imageId){
+                    await cloudinary.uploader.destroy(user.imageId);
+                }
+                await Admin.findByIdAndDelete(id);
+                res.redirect("/admin-user-management")
+            }catch(error){
+                console.log("Error in AdminDeleteUser",error)
             }
         }
 
@@ -255,6 +384,126 @@ class AdminController{
                 console.log("Error in AdminLogout",error)
             }
         } 
+
+
+        // specilazation page
+        async specilazationPage(req,res){
+            try{
+                res.render("admin/specialization",{
+                    title:"Specilazation Page",
+                    user:req.user
+                })
+
+            }catch(error){
+                console.log("Error in specilazationPage",error)
+            }
+        }
+
+        async createSpecialization(req,res){
+            try{
+                const {name}=req.body;
+                if(!name){
+                    console.log("Name is required")
+                }
+                const specilazation=new Specialization({name})
+                await specilazation.save();
+                res.redirect("/specialization-page")
+            }catch(error){
+                console.log("Error in createSpecialization",error)
+            }
+        }
+
+        async allSpecializations(req,res){
+            try{
+                const specializations=await Specialization.find();
+                res.render("admin/allSpecializationPage",{
+                    title:"All Specializations",
+                    user:req.user,
+                    data:specializations
+                })
+            }catch(error){
+                console.log("Error in allSpecialization",error)
+            }
+        }
+
+        async DeleteSpecialization(req,res){
+            try{
+                const {id}=req.params;
+                await Specialization.findByIdAndDelete(id);
+                res.redirect("/all-specializations")
+                console.log("Specialization deleted successfully")
+
+            }catch(error){
+                console.log("Error in DeleteSpecialization",error)
+            }
+        }
+
+
+        // admin add doctor page and logic will be implemented in future
+
+        async addDoctorPage(req,res){
+            try{
+                const specialization=await Specialization.find()
+                res.render("admin/addDocterPage",{
+                    title:"Add Doctor Page",
+                    user:req.user,
+                    specialization
+                })
+            }catch(error){
+                console.log("Error in addDoctorPage",error)
+            }
+        }
+
+        async addDoctor(req,res){
+            try{
+                const {name,email,password,specialization}=req.body;
+                if(!name || !email || !password || !specialization){
+                    console.log("All fields are required")
+                }
+                const doctor=new Doctor({
+                    name,
+                    email,
+                    password:await bcrypt.hash(password,10),
+                    specialization
+                })
+                const result=await doctor.save();
+                if(result){
+                    console.log("Doctor added successfully")
+                    res.redirect("/add-doctor-page")
+                }
+
+            }catch(error){
+                console.log("Error in addDoctor",error)
+            }
+        }
+
+        async AllDoctor(req,res){
+            try{
+                const doctor=await Doctor.find().populate("specialization")
+                res.render("admin/allDoctorPage",{
+                    title:"All doctor page",
+                    data:doctor,
+                    user:req.user
+
+                })
+
+            }catch(error){
+                console.log("error to get all doctor",error)
+            }
+        }
+
+        async deleteDoctor(req,res){
+            try{
+                const {id}=req.params;
+                await Doctor.findByIdAndDelete(id)
+                console.log("delete doctor sucessfully")
+                return res.redirect("/allDoctor")
+
+
+            }catch(error){
+                console.log("error to get delete doctor",error)
+            }
+        }
 
 
 }

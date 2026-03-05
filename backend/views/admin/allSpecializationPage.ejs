@@ -1,0 +1,66 @@
+<%- include ("../admin/layout/header") %>   
+<%- include("../admin/layout/sidebar")%>
+<%- include("../admin/layout/navbar") %>   
+
+ <div class="container-fluid mt-4">
+      <div class="card shadow-sm">
+        <div
+          class="card-header bg-secondary text-white d-flex justify-content-between"
+        >
+          <h5 class="mb-0" style="font-family: 'Comfortaa'">🛒 All category</h5>
+          <span
+            class="badge bg-light text-dark rounded-pill d-flex align-items-center justify-content-center"
+          >
+           <%=data.length%>
+          </span>
+        </div>
+
+        <div class="card-body table-responsive">
+          <div class="card-body">
+            
+
+            <% if (data.length > 0) { %>
+            <table class="table table-hover align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>#</th>
+                  <th>Category</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% data.forEach((item, index) => { %>
+                <tr>
+                  <td><%= index + 1 %></td>
+                  <td>
+                    <span class="badge bg-light text-dark rounded-pill"><%= item.name%></span>
+
+                  </td>
+                <td>
+                    
+                    <a
+                    href="/deleteSpecialization/<%= item._id %>"
+                    onclick="return confirm('Are you sure?')"
+                    class="action-btn delete"
+                    title="Delete"
+                    ><i class="fas fa-trash"></i>
+                    </a>
+                
+                </td>
+                  
+                </tr>
+                <% }) %>
+              </tbody>
+            </table>
+
+            <% } else { %>
+            <div class="text-center text-muted py-5">
+              <h5>No category Available</h5>
+            </div>
+            <% } %>
+          </div>
+        </div>
+      </div>
+   
+<%- include('../admin/layout/footer') %>

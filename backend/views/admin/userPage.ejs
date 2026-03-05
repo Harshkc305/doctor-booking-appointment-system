@@ -1,0 +1,134 @@
+<%- include ("../admin/layout/header") %>   
+<%- include("../admin/layout/sidebar")%>
+<%- include("../admin/layout/navbar") %>   
+
+<div class="container-fluid mt-4">
+
+    <!-- PAGE HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-4 upage">
+        <div>
+            <h4 class="fw-bold mb-1">Users</h4>
+            <p class="text-muted mb-0">Manage registered users</p>
+        </div>
+
+        <span class="badge bg-primary p-2">
+            Total Users: <%= data.length %>
+        </span>
+    </div>
+
+    <!-- USERS CARD -->
+    <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-4">
+
+            <div class="table-responsive">
+
+                <table class="table align-middle table-borderless table-hover">
+
+                    <thead class="text-muted small">
+                        <tr>
+                            <th>#</th>
+                            <th>User</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <% if (data.length > 0) { %>
+
+                            <% data.forEach((item,index)=>{ %>
+
+                                <tr class="user-row">
+
+                                    <!-- Index -->
+                                    <td class="text-muted">
+                                        <%= index+1 %>
+                                    </td>
+
+                                    <!-- USER -->
+                                    <td>
+                                        <div class="d-flex align-items-center gap-3">
+
+                                            <img
+                                                src="<%= item.image ? item.image : '/img/undraw_profile.svg' %>"
+                                                class="user-avatar-square">
+
+                                            <div>
+                                                <div class="fw-semibold fs-6">
+                                                    <%= item.name %>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </td>
+
+                                    <!-- EMAIL -->
+                                    <td class="text-muted">
+                                        <%= item.email %>
+                                    </td>
+
+                                    <!-- ROLE -->
+                                    <td>
+
+                                        <% if(item.role === "admin"){ %>
+
+                                            <span class="badge role-badge bg-success text-white">
+                                                Admin
+                                            </span>
+
+                                        <% } else { %>
+
+                                            <span class="badge role-badge bg-light text-dark">
+                                                User
+                                            </span>
+
+                                        <% } %>
+
+                                    </td>
+
+                                    <!-- ACTIONS -->
+                                    <td class="text-end">
+
+                                        <div class="action-group">
+
+                                            <a href="/admin-delete/<%= item._id %>"
+                                               onclick="return confirm('Delete this user?')"
+                                               class="action-btn delete"
+                                               title="Delete">
+
+                                                <i class="fas fa-trash"></i>
+
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                            <% }) %>
+
+                        <% } else { %>
+
+                            <tr>
+                                <td colspan="5" class="text-center py-5 text-muted">
+                                    No users found
+                                </td>
+                            </tr>
+
+                        <% } %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<%- include('../admin/layout/footer') %>

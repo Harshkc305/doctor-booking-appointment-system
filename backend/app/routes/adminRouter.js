@@ -12,6 +12,18 @@ router.post("/admin-register",ImageUpload.single("image"),AdminController.AdminR
 // Admin OTP Page/ verification
 router.get("/admin-otp-page",AdminController.otpPage)
 router.post("/verifyemail",AdminController.verifyEmail)
+
+// forget password page
+router.get("/forget-password-page",AdminController.forgetPasswordPage)
+router.post("/forgot-password",AdminController.sendForgetPasswordLink)
+
+
+// reset password page
+router.get("/reset-password/:id/:token",AdminController.resetPasswordPage)
+router.post("/reset-password/:id/:token",AdminController.resetPassword)
+
+
+
 // Admin Login Page
 router.get("/admin-login-page",AdminController.AdminLoginPage)
 router.post("/admin-login",AdminController.AdminLogin)
@@ -21,6 +33,26 @@ router.get("/admin-dashboard",AuthCheck,AdminCheck,AdminController.AdminDashboar
 router.get("/admin-logout",AuthCheck,AdminController.AdminLogout)
 
 
+// Admin User Management
+router.get("/admin-user-management",AuthCheck,AdminCheck,AdminController.AdminUserManagement)
 
+// Admin Delete User
+router.get("/admin-delete/:id",AuthCheck,AdminCheck,AdminController.AdminDeleteUser)
+
+// specilazation management
+router.get("/specialization-page",AuthCheck,AdminCheck,AdminController.specilazationPage)
+router.post("/createspecialization",AuthCheck,AdminCheck,AdminController.createSpecialization)
+
+// All Specializations
+router.get("/all-specializations",AuthCheck,AdminCheck,AdminController.allSpecializations)
+
+// delete specialization
+router.get("/deleteSpecialization/:id",AuthCheck,AdminCheck,AdminController.DeleteSpecialization)
+
+// add doctor page
+router.get("/add-doctor-page",AuthCheck,AdminCheck,AdminController.addDoctorPage)
+router.post("/add-doctor",AuthCheck,AdminCheck,AdminController.addDoctor)
+router.get("/allDoctor",AuthCheck,AdminController.AllDoctor)
+router.get("/delete-Doctor/:id",AuthCheck,AdminCheck,AdminController.deleteDoctor)
 
 module.exports=router;

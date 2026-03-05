@@ -14,17 +14,22 @@ const doctorSchema= new mongoose.Schema({
         type:String,
         required:true
     },
+    is_verified:{
+        type:Boolean,
+        default:false
+    },
     specialization:{
-        type:String,
-        required:true
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"specialization"
+        
     },
     experience:{    
         type:Number,
-        required:true
+        // required:true
     },  
     consultationFee:{
         type:Number,
-        required:true
+        // required:true
     },
     image:{
         type:String,
@@ -44,11 +49,8 @@ const doctorSchema= new mongoose.Schema({
         endTime:{
             type:String,
         }
-    }],
-    addedByAdmin:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"admin" 
-    }
+    }]
+    
 },{
     timestamps:true,
     versionKey:false

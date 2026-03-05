@@ -1,0 +1,40 @@
+<%- include ("../admin/layout/header") %>   
+<%- include("../admin/layout/sidebar")%>
+<%- include("../admin/layout/navbar") %>   
+
+<div class="container">
+
+    <form action="/add-doctor" method="POST">
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input type="text" class="form-control" name="name">
+            
+        </div>
+        <div class="mb-3">
+            <label  class="form-label">Email address</label>
+            <input type="email" class="form-control" name="email">
+            
+        </div>
+        <div class="mb-3">
+            <label  class="form-label">Password</label>
+            <input type="password" class="form-control" name="password">
+        </div>
+        <div class="mb-3">
+            <label  class="form-label fw-semibold">specilation</label>
+            <select name="specialization" class="form-control" required>
+                <option value="">-- Select Spelization --</option>
+                <% specialization.forEach(spe=>{%>
+                    <option value="<%= spe._id%>">
+                        <%=spe.name%>
+                    </option>
+                <%})%>
+            </select>
+            <!-- <input type="password" class="form-control" name="password"> -->
+        </div>
+
+        
+        
+        <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+</div>
+<%- include('../admin/layout/footer') %>

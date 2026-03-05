@@ -5,7 +5,7 @@ const cors=require("cors")
 const dbcon=require("./app/config/dbcon")
 const cookieParser=require("cookie-parser")
 const path = require("path");
-const helmet=require("helmet")
+// const helmet=require("helmet")
 
 // const limiter=require("./app/utils/ratelimiter")
 
@@ -19,7 +19,7 @@ app.use(cors());
 // app.use(limiter);
 
 // helmet
-app.use(helmet());
+// app.use(helmet());
 
 // cookie parser
 app.use(cookieParser());
@@ -27,7 +27,7 @@ app.use(cookieParser());
 app.set("view engine", "ejs");
 app.set("views", "views");
 
-app.use(express.static("public"));
+
 app.use(express.urlencoded({ extended: true}));
 
 // for public folder

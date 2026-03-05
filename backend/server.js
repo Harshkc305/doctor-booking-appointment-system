@@ -5,8 +5,9 @@ const cors=require("cors")
 const dbcon=require("./app/config/dbcon")
 const cookieParser=require("cookie-parser")
 const path = require("path");
+const helmet=require("helmet")
 
-const limiter=require("./app/utils/ratelimiter")
+// const limiter=require("./app/utils/ratelimiter")
 
 // connect to database
 dbcon();
@@ -15,8 +16,10 @@ dbcon();
 app.use(cors());
 
 // limiter
-app.use(limiter);
+// app.use(limiter);
 
+// helmet
+app.use(helmet());
 
 // cookie parser
 app.use(cookieParser());

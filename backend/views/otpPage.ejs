@@ -1,0 +1,36 @@
+<%- include ("layout/header") %>   
+<%- include("layout/sidebar")%>
+<%- include("layout/navbar") %>        
+
+<!-- <div class="container-fluid d-flex justify-content-center align-items-center"> -->
+    <div class="container-fluid ">
+                    <div class="login-bg d-flex justify-content-center align-items-center">
+
+                        <div class="card login-card">
+                            <div class="card-body login-card-body" >
+                                
+                                
+                                <h1 class="login-text text-center mb-4">Otp Page</h1>
+
+                                <form action="/verifyemail" method="POST">
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Email</label>
+                                        <input type="email" class="form-control" name="email">
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Otp</label>
+                                        <input type="text" class="form-control" name="otp">
+                                    </div>
+                                    <!-- <button type="submit" class="btn btn-primary">Login</button> -->
+                                    <button type="submit" class="btn btn-primary rounded-pill w-100">Login</button>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                
+
+<%- include('layout/footer') %>

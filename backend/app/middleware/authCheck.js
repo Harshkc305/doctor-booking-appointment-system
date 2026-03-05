@@ -11,12 +11,12 @@ async function AuthCheck(req,res,next){
 
         const decoded=jwt.verify(token,process.env.JWT_SECRET);
 
-        const admin=await Admin.findById(decoded.admin_id).select("-password")
+        const user=await Admin.findById(decoded.user_id).select("-password")
 
-        if(!admin){
+        if(!user){
                 return res.redirect("/admin-login-page")
         }
-        req.admin=admin;
+        req.user=user;
         next();
 
     }catch(error){

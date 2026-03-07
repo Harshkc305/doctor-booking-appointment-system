@@ -1,0 +1,144 @@
+<%- include ("../doctor/layout/header") %>   
+<%- include("../doctor/layout/sidebar")%>
+<%- include("../doctor/layout/navbar") %>   
+
+<div class="container mt-4">
+
+<h3 class="mb-4">Update Doctor Profile</h3>
+
+<form action="/doctor-update-profile" enctype="multipart/form-data" method="POST">
+
+<div class="row">
+
+<div class="col-md-6">
+
+<div class="mb-3">
+<label class="form-label">Name</label>
+<input type="text" class="form-control" name="name" value="<%= doctor.name %>">
+</div>
+
+<div class="mb-3">
+<label class="form-label">Email</label>
+<input type="email" class="form-control" value="<%= doctor.email %>" readonly>
+<input type="hidden" name="email" value="<%= doctor.email %>">
+</div>
+
+<div class="mb-3">
+<label class="form-label">Specialization</label>
+
+<select name="specialization" class="form-control">
+
+<option value="">-- Select Specialization --</option>
+
+<% specialization.forEach(spe=>{ %>
+
+<option value="<%= spe._id %>"
+<%= doctor.specialization?.toString() === spe._id.toString() ? "selected" : "" %>>
+
+<%= spe.name %>
+
+</option>
+
+<% }) %>
+
+</select>
+
+</div>
+
+<div class="mb-3">
+<label class="form-label">Experience (Years)</label>
+<input type="number" class="form-control" name="experience" value="<%= doctor.experience %>">
+</div>
+
+<div class="mb-3">
+<label class="form-label">Consultation Fee (₹)</label>
+<input type="number" class="form-control" name="consultationFee" value="<%= doctor.consultationFee %>">
+</div>
+
+</div>
+
+
+<div class="col-md-6">
+
+<div class="mb-3">
+<label class="form-label">Doctor Image</label>
+
+<% if(doctor.image){ %>
+<div>
+<img src="<%= doctor.image %>" width="120" class="rounded mb-2">
+</div>
+<% } %>
+
+<input type="file" name="image" class="form-control">
+
+</div>
+
+</div>
+
+</div>
+
+
+<hr>
+
+<h4 class="mt-4">Doctor Availability Schedule</h4>
+
+<table class="table table-bordered mt-3">
+
+<thead>
+<tr>
+<th>Day</th>
+<th>Off</th>
+<th>Start Time</th>
+<th>End Time</th>
+</tr>
+</thead>
+
+<tbody>
+
+<%
+const days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+
+days.forEach(day=>{
+let slot = doctor.availableSclots.find(s => s.day === day);
+%>
+
+<tr>
+
+<td><%= day %></td>
+
+<td>
+<input type="checkbox" name="off_<%=day%>" <%= slot ? "" : "" %>>
+</td>
+
+<td>
+<input type="time"
+name="startTime_<%=day%>"
+class="form-control"
+value="<%= slot ? slot.startTime : '' %>">
+</td>
+
+<td>
+<input type="time"
+name="endTime_<%=day%>"
+class="form-control"
+value="<%= slot ? slot.endTime : '' %>">
+</td>
+
+</tr>
+
+<% }) %>
+
+</tbody>
+
+</table>
+
+
+<button type="submit" class="btn btn-success mt-3">
+Update Profile
+</button>
+
+</form>
+
+</div>
+
+<%- include('../doctor/layout/footer') %>

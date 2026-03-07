@@ -4,8 +4,14 @@ const emailOtpSchema=new mongoose.Schema({
     userId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"admin",
-        required:true
+        // required:true
     },
+    doctorId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"doctor",
+        // required:true
+    },
+
     otp:{
         type:String,
         required:true

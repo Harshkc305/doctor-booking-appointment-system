@@ -45,6 +45,10 @@ app.use(ejsRouter)
 const adminRouter=require("./app/routes/adminRouter");
 app.use(adminRouter)
 
+// doctor
+const doctorRouter=require("./app/routes/doctorRouter");
+app.use(doctorRouter)
+
 
 
 const PORT = process.env.PORT || 3000;

@@ -6,6 +6,7 @@ const cloudinary=require("../config/cloudunaryConfig")
 const jwt=require("jsonwebtoken")
 const sendEmailVerificationOTP=require("../helper/sendEmail")
 const EmailVerifyModel=require("../models/otpModel")
+const sendDoctorCredentials=require("../helper/sendDoctorCredential")
 const transporter= require("../config/emailConfig")
 // const { generateToken, generateRefreshToken } = require("../helper/token")
 
@@ -70,12 +71,12 @@ class AdminController{
             const result=await user.save();
 
             // email send to user email
-        sendEmailVerificationOTP(req,result)
+        sendEmailVerificationOTP(req,result,"admin")
 
 
             if ( result ){
                 console.log("Admin registered successfully")
-                res.redirect("/admin-login-page")
+                res.redirect("/admin-otp-page")
             }else{
                 console.log("Admin registration failed")
             }
@@ -100,11 +101,13 @@ class AdminController{
     // verify OTP
     async verifyEmail(req,res){
         try{
-            const {email,otp}=req.body;
+            const {email,otp,}=req.body;
             if(!email || !otp){
                 console.log("Email and OTP are required")
                 return res.redirect("/admin-otp-page")
             }
+
+
 
             const existinguser=await Admin.findOne({email})
 
@@ -120,7 +123,7 @@ class AdminController{
 
             if(!emailVerification){
                 if(!emailVerification.is_verified){
-                    await sendEmailVerificationOTP(req,existinguser)
+                    await sendEmailVerificationOTP(req,existinguser,"admin")
                     console.log("Invalid OTP. A new OTP has been sent to your email.")
                 }
                 console.log("Invalid OTP")
@@ -132,7 +135,7 @@ class AdminController{
             // 15*60*1000 is 15 minutes in milliseconds
             const expirationTime=new Date(emailVerification.createdAt.getTime()+15*60*1000);
             if(currentTime>expirationTime){
-                await sendEmailVerificationOTP(req,existinguser)
+                await sendEmailVerificationOTP(req,existinguser,"admin")
                 console.log("OTP expired. A new OTP has been sent to your email.")
             }
 
@@ -183,7 +186,7 @@ class AdminController{
                 }
 
                 if(!user.is_verified){
-                    sendEmailVerificationOTP(req,user)
+                    sendEmailVerificationOTP(req,user,"admin")
                     console.log("Email not verified. Please verify your email before logging in.")
                     return res.redirect("/admin-otp-page")
                 }
@@ -460,13 +463,25 @@ class AdminController{
                 if(!name || !email || !password || !specialization){
                     console.log("All fields are required")
                 }
+
+                const existingDoctor=await Doctor.findOne({email})
+
+                if(existingDoctor){
+                    console.log("Doctor already exist")
+                    return res.redirect("/add-doctor-page")
+                }
                 const doctor=new Doctor({
                     name,
                     email,
                     password:await bcrypt.hash(password,10),
-                    specialization
+                    specialization,
+                    is_verified:true
                 })
                 const result=await doctor.save();
+
+                // send doctor creadintial
+                await sendDoctorCredentials(result, password)
+
                 if(result){
                     console.log("Doctor added successfully")
                     res.redirect("/add-doctor-page")

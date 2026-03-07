@@ -2,19 +2,28 @@ const transpoter=require("../config/emailConfig")
 
 const EmailotpModule=require("../models/otpModel")
 
-const sendEmailVerificationOTP=async(req,user)=>{
+const sendEmailVerificationOTP=async(req,user,userType)=>{
     const otp=Math.floor(100000+Math.random()*900000);
     console.log("Generated OTP:",otp)
 
-    const data=await new EmailotpModule({
-        userId:user.id,
-        otp:otp,
-    }).save();
+    let otpData={
+        otp:otp
+    }
+
+    if(userType==="admin"){
+        otpData.userId=user.id
+    }
+
+    if(userType==="doctor"){
+        otpData.doctorId=user.id
+    }
+
+    const data=await new EmailotpModule(otpData).save();
 
     console.log("OTP saved to database:",data)
 
     await transpoter.sendMail({
-        form:process.env.EMAIL_USER||"harshraz0009@gmail.com",
+        from:process.env.EMAIL_USER||"harshraz0009@gmail.com",
         to:user.email,
         subject:"Email Verification OTP",
         text:`your OTP is ${otp}. Its valid for 15 minutes.`,

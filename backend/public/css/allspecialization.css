@@ -1,0 +1,91 @@
+.category-card{
+border:none;
+border-radius:16px;
+box-shadow:0 12px 35px rgba(0,0,0,0.08);
+overflow:hidden;
+}
+
+
+/* Header */
+
+.card-header{
+background:linear-gradient(135deg,#1c5ec8,#172fa6);
+color:white;
+padding:18px 25px;
+}
+
+
+/* Count Badge */
+
+.count-badge{
+background:white;
+color:#1c5ec8;
+padding:6px 14px;
+border-radius:20px;
+font-weight:600;
+font-size:14px;
+}
+
+
+/* Table */
+
+.modern-table thead{
+background:#f4f6fb;
+}
+
+.modern-table th{
+font-weight:600;
+color:#444;
+}
+
+.modern-table tbody tr{
+transition:.2s;
+}
+
+.modern-table tbody tr:hover{
+background:#f9fbff;
+}
+
+
+/* Specialization Badge */
+
+.spec-badge{
+background:#eef2ff;
+color:#1c5ec8;
+padding:6px 14px;
+border-radius:20px;
+font-size:13px;
+font-weight:500;
+}
+
+
+/* Delete Button */
+
+.delete-btn{
+background:#ffecec;
+color:#e63946;
+padding:8px 12px;
+border-radius:8px;
+transition:.3s;
+display:inline-block;
+}
+
+.delete-btn:hover{
+background:#e63946;
+color:white;
+transform:scale(1.1);
+}
+
+
+/* Empty State */
+
+.empty-state{
+text-align:center;
+padding:60px 0;
+color:#888;
+}
+
+.empty-state i{
+font-size:40px;
+margin-bottom:10px;
+}

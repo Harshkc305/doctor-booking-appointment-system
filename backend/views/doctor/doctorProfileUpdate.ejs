@@ -2,31 +2,44 @@
 <%- include("../doctor/layout/sidebar")%>
 <%- include("../doctor/layout/navbar") %>   
 
-<div class="container mt-4">
+<div class="container-fluid mt-4">
+    <div class="card shadow-sm mb-4">
+        <div
+          class="card-header bg-primary text-white d-flex justify-content-between"
+        >
+          <h5 class="mb-0" style="font-family: 'Comfortaa'">Update Doctor Profile</h5>
+          
+    </div>
+    </div>
 
-<h3 class="mb-4">Update Doctor Profile</h3>
+
 
 <form action="/doctor-update-profile" enctype="multipart/form-data" method="POST">
 
-<div class="row">
+<div class="row g-4 mx-2">
 
+<!-- Left Section -->
 <div class="col-md-6">
+
+<div class="card shadow-sm border-0 p-4">
+
+<h5 class="mb-3 text-primary">Basic Information</h5>
 
 <div class="mb-3">
 <label class="form-label">Name</label>
-<input type="text" class="form-control" name="name" value="<%= doctor.name %>">
+<input type="text" class="form-control rounded-3" name="name" value="<%= doctor.name %>">
 </div>
 
 <div class="mb-3">
 <label class="form-label">Email</label>
-<input type="email" class="form-control" value="<%= doctor.email %>" readonly>
+<input type="email" class="form-control rounded-3" value="<%= doctor.email %>" readonly>
 <input type="hidden" name="email" value="<%= doctor.email %>">
 </div>
 
 <div class="mb-3">
 <label class="form-label">Specialization</label>
 
-<select name="specialization" class="form-control">
+<select name="specialization" class="form-select rounded-3 p-1">
 
 <option value="">-- Select Specialization --</option>
 
@@ -45,31 +58,52 @@
 
 </div>
 
-<div class="mb-3">
-<label class="form-label">Experience (Years)</label>
-<input type="number" class="form-control" name="experience" value="<%= doctor.experience %>">
-</div>
-
-<div class="mb-3">
-<label class="form-label">Consultation Fee (₹)</label>
-<input type="number" class="form-control" name="consultationFee" value="<%= doctor.consultationFee %>">
-</div>
-
-</div>
-
+<div class="row">
 
 <div class="col-md-6">
 
 <div class="mb-3">
-<label class="form-label">Doctor Image</label>
+<label class="form-label">Experience</label>
+<input type="number" class="form-control rounded-3" name="experience" value="<%= doctor.experience %>">
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="mb-3">
+<label class="form-label">Consultation Fee</label>
+<input type="number" class="form-control rounded-3" name="consultationFee" value="<%= doctor.consultationFee %>">
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- Right Section -->
+<div class="col-md-6">
+
+<div class="card shadow-sm border-0 p-4">
+
+<h5 class="mb-3 text-primary">Profile Image</h5>
 
 <% if(doctor.image){ %>
-<div>
-<img src="<%= doctor.image %>" width="120" class="rounded mb-2">
+
+<div class="text-center mb-3">
+
+<img src="<%= doctor.image %>" 
+style="width:140px;height:140px;object-fit:cover;border-radius:50%;border:4px solid #0d6efd">
+
 </div>
+
 <% } %>
 
-<input type="file" name="image" class="form-control">
+<input type="file" name="image" class="form-control rounded-3">
 
 </div>
 
@@ -78,19 +112,23 @@
 </div>
 
 
-<hr>
+<!-- Schedule Section -->
 
-<h4 class="mt-4">Doctor Availability Schedule</h4>
+<div class="card shadow-sm border-0 mt-4 p-4 mx-4">
 
-<table class="table table-bordered mt-3">
+<h5 class="text-primary mb-3">Doctor Availability Schedule</h5>
 
-<thead>
+<table class="table align-middle table-hover">
+
+<thead class="table-light">
+
 <tr>
 <th>Day</th>
 <th>Off</th>
 <th>Start Time</th>
 <th>End Time</th>
 </tr>
+
 </thead>
 
 <tbody>
@@ -104,23 +142,23 @@ let slot = doctor.availableSclots.find(s => s.day === day);
 
 <tr>
 
-<td><%= day %></td>
+<td class="fw-semibold"><%= day %></td>
 
 <td>
-<input type="checkbox" name="off_<%=day%>" <%= slot ? "" : "" %>>
+<input type="checkbox" class="form-check-input" name="off_<%=day%>" <%= slot ? "" : "" %>>
 </td>
 
 <td>
 <input type="time"
 name="startTime_<%=day%>"
-class="form-control"
+class="form-control rounded-3"
 value="<%= slot ? slot.startTime : '' %>">
 </td>
 
 <td>
 <input type="time"
 name="endTime_<%=day%>"
-class="form-control"
+class="form-control rounded-3"
 value="<%= slot ? slot.endTime : '' %>">
 </td>
 
@@ -132,10 +170,16 @@ value="<%= slot ? slot.endTime : '' %>">
 
 </table>
 
+</div>
 
-<button type="submit" class="btn btn-success mt-3">
+
+<div class="text-end mt-4 mx-4">
+
+<button type="submit" class="btn btn-primary px-4 py-2 mb-4">
 Update Profile
 </button>
+
+</div>
 
 </form>
 

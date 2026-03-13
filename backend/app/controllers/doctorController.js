@@ -274,6 +274,7 @@ class doctorController{
             console.log(error,"error to get profile page")
         }
     }
+    
 
     async DoctorUpdateProfile(req,res){
         try{
@@ -365,6 +366,24 @@ days.forEach(day=>{
             console.log("internnal server error")
         }
     }
+
+    async profileViwePage(req,res){
+    try{
+
+        const doctor = await Doctor.findById(req.user._id)
+        .populate("specialization","name")
+
+        res.render("doctor/profileViewPage",{
+            title:"profile view page",
+            user:req.user,
+            doctor
+        })
+
+    }catch(error){
+        console.log("error to get profile page",error)
+       
+    }
+}
 
 
 

@@ -2,33 +2,53 @@
 <%- include("../admin/layout/sidebar")%>
 <%- include("../admin/layout/navbar") %>   
 
-<div class="container-fluid mt-4">
-   <div class="Category-page">
+<link rel="stylesheet" href="/css/specialization.css">
 
-                <div class="card cardcategory cc">
-                    <div class="card-header bg-secondary text-white">
-                        <h3 class="mb-0" style="font-family: 'Comfortaa';">➕ Add Specialization</h3>
-                    </div>
-                    <div class="card-body">
-                        <form action="/createspecialization" method="post">
-                            
-                            <!-- Name -->
-                            <div class="mb-3">
-                                <label class="form-label fw-semibold">Specialization Name</label>
-                                <input type="text" name="name" placeholder="Enter Specialization name" class="form-control rounded-pill shadow-sm" required />
-                            </div>
-                            
-                           
+<div class="container-fluid sp">
 
-                            <button type="submit" class="btn gradient-btn rounded-pill px-4 shadow-sm">
-                                Submit Specialization
-                            </button>
+<div class="form-wrapper">
 
-                            
-                        </form>
-                    </div>
-                </div>
-            </div>
+<div class="card specialization-card">
+
+<div class="card-header">
+<h4>➕ Add Doctor Specialization</h4>
 </div>
-   
+
+<div class="card-body">
+
+<form action="/createspecialization" method="post">
+
+<div class="form-group">
+
+<label>Specialization Name</label>
+
+<div class="input-group-modern">
+
+<i class="fa-solid fa-stethoscope"></i>
+
+<input 
+type="text" 
+name="name" 
+placeholder="Enter Specialization Name"
+class="modern-input"
+required
+/>
+
+</div>
+
+</div>
+
+<button type="submit" class="submit-btn">
+Add Specialization
+</button>
+
+</form>
+
+</div>
+</div>
+
+</div>
+
+</div>
+
 <%- include('../admin/layout/footer') %>

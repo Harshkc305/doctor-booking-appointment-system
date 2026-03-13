@@ -29,6 +29,11 @@ router.post("/doctor-reset-password/:id/:token",DoctorController.DoctorResetPass
 router.get("/doctor-update-profile-page",DoctorAuthCheck,DoctorController.DoctorProfilePage)
 router.post("/doctor-update-profile",DoctorAuthCheck,ImageUpload.single("image"),DoctorController.DoctorUpdateProfile)
 
+// doctor profile viwe
+router.get("/doctor-profile-view",DoctorAuthCheck,DoctorController.profileViwePage)
+
+
+
 // logout
 router.get("/doctor-logout",DoctorController.DoctorLogout)
 module.exports=router;

@@ -2,35 +2,57 @@
 <%- include("./layout/sidebar")%>
 <%- include("./layout/navbar") %>        
 
-<!-- <div class="container-fluid d-flex justify-content-center align-items-center"> -->
-    <div class="container-fluid ">
-                    <div class="login-bg d-flex justify-content-center align-items-center">
+<link rel="stylesheet" href="/css/otp.css">
 
-                        <div class="card login-card">
-                            <div class="card-body login-card-body" >
-                                
-                                
-                                <h1 class="login-text text-center mb-4">Otp Page</h1>
+<div class="container-fluid otp-wrapper">
 
-                                <form action="/verifyemail" method="POST">
-                                    
-                                    <div class="mb-3">
-                                        <label class="form-label">Email</label>
-                                        <input type="email" class="form-control" name="email">
-                                    </div>
-                                    
-                                    <div class="mb-3">
-                                        <label class="form-label">Otp</label>
-                                        <input type="text" class="form-control" name="otp">
-                                    </div>
-                                    <!-- <button type="submit" class="btn btn-primary">Login</button> -->
-                                    <button type="submit" class="btn btn-primary rounded-pill w-100">Login</button>
+<div class="otp-container">
 
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+<div class="otp-card">
 
-                
+<div class="otp-icon">
+<i class="fas fa-envelope-open-text"></i>
+</div>
+
+<h3 class="otp-title">Email Verification</h3>
+<p class="otp-subtitle">
+Enter the OTP sent to your email
+</p>
+
+<form action="/verifyemail" method="POST">
+
+<div class="mb-3">
+<label>Email</label>
+<input 
+type="email" 
+class="form-control otp-input" 
+name="email" 
+placeholder="Enter your email"
+required
+>
+</div>
+
+<div class="mb-4">
+<label>OTP Code</label>
+<input 
+type="text" 
+class="form-control otp-input" 
+name="otp" 
+placeholder="Enter OTP"
+required
+>
+</div>
+
+<button class="otp-btn w-100">
+Verify OTP
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
 
 <%- include('./layout/footer') %>

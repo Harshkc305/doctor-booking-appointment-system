@@ -1,0 +1,103 @@
+.form-page{
+min-height:85vh;
+/* min-width: 800px; */
+display:flex;
+align-items:center;
+justify-content:center;
+background-image: radial-gradient(circle at 13% 47%, rgba(140, 140, 140,0.03) 0%, rgba(140, 140, 140,0.03) 25%,transparent 25%, transparent 100%),radial-gradient(circle at 28% 63%, rgba(143, 143, 143,0.03) 0%, rgba(143, 143, 143,0.03) 16%,transparent 16%, transparent 100%),radial-gradient(circle at 81% 56%, rgba(65, 65, 65,0.03) 0%, rgba(65, 65, 65,0.03) 12%,transparent 12%, transparent 100%),radial-gradient(circle at 26% 48%, rgba(60, 60, 60,0.03) 0%, rgba(60, 60, 60,0.03) 6%,transparent 6%, transparent 100%),radial-gradient(circle at 97% 17%, rgba(150, 150, 150,0.03) 0%, rgba(150, 150, 150,0.03) 56%,transparent 56%, transparent 100%),radial-gradient(circle at 50% 100%, rgba(25, 25, 25,0.03) 0%, rgba(25, 25, 25,0.03) 36%,transparent 36%, transparent 100%),radial-gradient(circle at 55% 52%, rgba(69, 69, 69,0.03) 0%, rgba(69, 69, 69,0.03) 6%,transparent 6%, transparent 100%),linear-gradient(90deg, rgb(255,255,255),rgb(255,255,255));
+}
+
+
+/* Card */
+
+.doctor-card{
+    min-width: 600px;
+border:none;
+border-radius:16px;
+box-shadow:0 15px 40px rgba(0,0,0,0.08);
+overflow:hidden;
+transition:.3s;
+}
+
+.doctor-card:hover{
+transform:translateY(-4px);
+box-shadow:0 20px 50px rgba(0,0,0,0.12);
+}
+
+
+/* Header */
+
+.card-header{
+background:linear-gradient(135deg,#1c5ec8,#172fa6);
+color:white;
+text-align:center;
+/* padding:25px; */
+}
+
+.card-header h4{
+margin:0;
+font-weight:600;
+}
+
+.card-header p{
+margin:5px 0 0;
+font-size:13px;
+opacity:.9;
+}
+
+
+/* Body */
+
+.card-body{
+padding:35px;
+
+}
+
+
+/* Form */
+
+.form-group{
+margin-bottom:20px;
+}
+
+.form-group label{
+font-weight:600;
+margin-bottom:6px;
+display:block;
+}
+
+
+/* Input */
+
+.modern-input{
+border-radius:25px;
+/* padding:24px 16px; */
+border:1px solid #ddd;
+transition:.3s;
+}
+
+.modern-input:focus{
+border-color:#1c5ec8;
+box-shadow:0 0 0 0.15rem rgba(28,94,200,.15);
+}
+
+
+/* Button */
+
+.submit-btn{
+width:100%;
+margin-top:15px;
+border:none;
+border-radius:30px;
+padding:12px;
+font-weight:600;
+color:white;
+background:linear-gradient(135deg,#1c5ec8,#172fa6);
+transition:.3s;
+}
+
+.submit-btn:hover{
+background:linear-gradient(135deg,#1738a6,#132685);
+transform:translateY(-2px);
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
+}

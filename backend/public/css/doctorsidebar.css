@@ -1,0 +1,102 @@
+/* Doctor Sidebar */
+
+.doctor-sidebar{
+background:linear-gradient(180deg,#0f172a,#1e293b);
+min-height:100vh;
+padding-top:10px;
+transition:0.3s;
+}
+
+
+/* Brand */
+
+.sidebar-brand{
+color:white;
+font-weight:600;
+font-size:18px;
+padding:18px;
+text-decoration:none;
+}
+
+.sidebar-brand-text{
+margin-left:8px;
+}
+
+
+/* Divider */
+
+.sidebar-divider{
+border-top:1px solid rgba(255,255,255,0.08);
+margin:10px 0;
+}
+
+
+/* Section Heading */
+
+.sidebar-heading{
+color:#9ca3af;
+font-size:12px;
+text-transform:uppercase;
+padding:10px 20px;
+letter-spacing:1px;
+}
+
+
+/* Nav Item */
+
+.doctor-sidebar .nav-item{
+margin:5px 12px;
+}
+
+
+/* Nav Link */
+
+.doctor-sidebar .nav-link{
+
+display:flex;
+align-items:center;
+gap:12px;
+color:#e2e8f0;
+padding:10px 15px;
+border-radius:8px;
+font-size:14px;
+transition:0.3s;
+
+}
+
+
+/* Icon */
+
+.doctor-sidebar .nav-link i{
+width:20px;
+text-align:center;
+}
+
+
+/* Hover Effect */
+
+.doctor-sidebar .nav-link:hover{
+
+background:rgba(255,255,255,0.08);
+color:white;
+transform:translateX(5px);
+
+}
+
+
+/* Active */
+
+.doctor-sidebar .nav-item.active .nav-link{
+
+background:white;
+color:#0f172a;
+font-weight:600;
+
+}
+
+
+/* Scroll */
+
+.doctor-sidebar{
+overflow-y:auto;
+}

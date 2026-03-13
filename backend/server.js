@@ -13,7 +13,10 @@ const path = require("path");
 dbcon();
 
 // cors
-app.use(cors());
+app.use(cors({
+    origin:"http://localhost:3004",
+    credentials:true
+}));
 
 // limiter
 // app.use(limiter);
@@ -49,6 +52,10 @@ app.use(adminRouter)
 const doctorRouter=require("./app/routes/doctorRouter");
 app.use(doctorRouter)
 
+
+// api doctor
+const ApiDoctorRouter=require("./app/routes/apiDoctorRouter")
+app.use("/api",ApiDoctorRouter)
 
 
 const PORT = process.env.PORT || 3000;

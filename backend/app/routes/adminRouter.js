@@ -51,8 +51,14 @@ router.get("/deleteSpecialization/:id",AuthCheck,AdminCheck,AdminController.Dele
 
 // add doctor page
 router.get("/add-doctor-page",AuthCheck,AdminCheck,AdminController.addDoctorPage)
-router.post("/add-doctor",AuthCheck,AdminCheck,AdminController.addDoctor)
+router.post("/add-doctor",AuthCheck,AdminCheck,ImageUpload.single("image"),AdminController.addDoctor)
 router.get("/allDoctor",AuthCheck,AdminController.AllDoctor)
+// single doctor
+router.get("/single-Docter-Page/:id",AuthCheck,AdminCheck,AdminController.singleDocterPage)
+// edit doctor page
+router.get("/edit-Doctor-Page/:id",AuthCheck,AdminCheck,AdminController.editDoctorPage)
+router.post("/Admin-Update-Doctor/:id",AuthCheck,AdminCheck,ImageUpload.single("image"),AdminController.AdminUpdateDoctor)
+
 router.get("/delete-Doctor/:id",AuthCheck,AdminCheck,AdminController.deleteDoctor)
 
 module.exports=router;

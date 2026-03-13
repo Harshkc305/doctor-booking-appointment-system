@@ -1,0 +1,190 @@
+<%- include ("../admin/layout/header") %>   
+<%- include("../admin/layout/sidebar")%>
+<%- include("../admin/layout/navbar") %>   
+
+
+<div class="container-fluid mt-4">
+    <div class="card shadow-sm mb-4">
+        <div
+          class="card-header bg-primary text-white d-flex justify-content-between"
+        >
+          <h5 class="mb-0" style="font-family: 'Comfortaa'">Update Doctor Profile</h5>
+          
+    </div>
+    </div>
+
+
+
+<form action="/Admin-Update-Doctor/<%=data._id%>" enctype="multipart/form-data" method="POST">
+
+<div class="row g-4 mx-2">
+
+<!-- Left Section -->
+<div class="col-md-6">
+
+<div class="card shadow-sm border-0 p-4">
+
+<h5 class="mb-3 text-primary">Basic Information</h5>
+
+<div class="mb-3">
+<label class="form-label">Name</label>
+<input type="text" class="form-control rounded-3" name="name" value="<%= data.name %>">
+</div>
+
+<div class="mb-3">
+<label class="form-label">Email</label>
+<input type="email" class="form-control rounded-3" value="<%= data.email %>" readonly>
+<input type="hidden" name="email" value="<%= data.email %>">
+</div>
+
+<div class="mb-3">
+<label class="form-label">Specialization</label>
+
+<select name="specialization" class="form-select rounded-3 p-1">
+
+<option value="">-- Select Specialization --</option>
+
+<% specialization.forEach(spe=>{ %>
+
+<option value="<%= spe._id %>"
+<%= data.specialization?.toString() === spe._id.toString() ? "selected" : "" %>>
+
+<%= spe.name %>
+
+</option>
+
+<% }) %>
+
+</select>
+
+</div>
+
+<div class="row">
+
+<div class="col-md-6">
+
+<div class="mb-3">
+<label class="form-label">Experience</label>
+<input type="number" class="form-control rounded-3" name="experience" value="<%= data.experience %>">
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="mb-3">
+<label class="form-label">Consultation Fee</label>
+<input type="number" class="form-control rounded-3" name="consultationFee" value="<%= data.consultationFee %>">
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- Right Section -->
+<div class="col-md-6">
+
+<div class="card shadow-sm border-0 p-4">
+
+<h5 class="mb-3 text-primary">Profile Image</h5>
+
+<% if(data.image){ %>
+
+<div class="text-center mb-3">
+
+<img src="<%= data.image %>" 
+style="width:140px;height:140px;object-fit:cover;border-radius:50%;border:4px solid #0d6efd">
+
+</div>
+
+<% } %>
+
+<input type="file" name="image" class="form-control rounded-3">
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- Schedule Section -->
+
+<div class="card shadow-sm border-0 mt-4 p-4 mx-4">
+
+<h5 class="text-primary mb-3">Doctor Availability Schedule</h5>
+
+<table class="table align-middle table-hover">
+
+<thead class="table-light">
+
+<tr>
+<th>Day</th>
+<th>Off</th>
+<th>Start Time</th>
+<th>End Time</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+<%
+const days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+
+days.forEach(day=>{
+let slot = data.availableSclots.find(s => s.day === day);
+%>
+
+<tr>
+
+<td class="fw-semibold"><%= day %></td>
+
+<td>
+<input type="checkbox" class="form-check-input" name="off_<%=day%>" <%= slot ? "" : "" %>>
+</td>
+
+<td>
+<input type="time"
+name="startTime_<%=day%>"
+class="form-control rounded-3"
+value="<%= slot ? slot.startTime : '' %>">
+</td>
+
+<td>
+<input type="time"
+name="endTime_<%=day%>"
+class="form-control rounded-3"
+value="<%= slot ? slot.endTime : '' %>">
+</td>
+
+</tr>
+
+<% }) %>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<div class="text-end mt-4 mx-4">
+
+<button type="submit" class="btn btn-primary px-4 py-2 mb-4">
+Update Profile
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+
+<%- include('../admin/layout/footer') %>

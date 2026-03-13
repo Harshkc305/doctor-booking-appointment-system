@@ -1,0 +1,14 @@
+.ccr{
+    /* display: flex; */
+    background-color: aqua;
+    height: 100vh;
+    
+    
+    
+}
+.cd{
+    height: 80px;
+    text-align: center;
+    justify-content: center;
+    
+}

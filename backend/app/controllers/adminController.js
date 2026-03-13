@@ -84,7 +84,7 @@ class AdminController{
             console.log("Error in AdminRegister",error)
         }
     }
-// OTP Page
+// OTP Page---------------------
 
     async otpPage(req,res){
         try{
@@ -98,7 +98,7 @@ class AdminController{
         }
     }
 
-    // verify OTP
+    // verify OTP -----------------------------
     async verifyEmail(req,res){
         try{
             const {email,otp,}=req.body;
@@ -155,7 +155,7 @@ class AdminController{
         }
     }
 
-    // Admin Login Page
+    // Admin Login Page-------------------------------
      async AdminLoginPage(req,res){
         try{
             res.render("admin/login",{
@@ -170,7 +170,7 @@ class AdminController{
 
     
 
-        // Admin Login
+        // Admin Login ----------------------------------------------
         async AdminLogin(req,res){
             try{
                 const {email,password}=req.body;
@@ -227,7 +227,7 @@ class AdminController{
             }
         }
 
-        // forget password page
+        // forget password page -----------------------------------------
         async forgetPasswordPage(req,res){
             try{
                 res.render("admin/forgetPasswordPage",{
@@ -239,7 +239,7 @@ class AdminController{
             }
         }
 
-        // send forget password OTP to email
+        // send forget password OTP to email -------------------------------------
         async sendForgetPasswordLink(req,res){
             try{
                 const{email}=req.body;
@@ -276,7 +276,7 @@ class AdminController{
             }
         }
 
-        // reset password page
+        // reset password page ---------------------------------------------
         async resetPasswordPage(req,res){
             try{
                 const {id,token}=req.params;
@@ -293,7 +293,7 @@ class AdminController{
             }
         }
 
-        // reset password logic will be implemented
+        // reset password --------------------------------------
 
         async resetPassword(req,res){
             try{
@@ -331,6 +331,8 @@ class AdminController{
             }
         }
 
+
+        // admin management page -------------------------------
         async AdminUserManagement(req,res){
             try{
                 const user=await Admin.find()
@@ -344,7 +346,9 @@ class AdminController{
                 console.log("Error in userPage",error)
             }
         }
+        
 
+        // admin delete ------------------------------------
         async AdminDeleteUser(req,res){
             try{
                 const{id}=req.params;
@@ -362,7 +366,7 @@ class AdminController{
             }
         }
 
-        // Admin Dashboard
+        // Admin Dashboard   -----------------------------------------
         async AdminDashboard(req,res){
             try{
                 const totalAdmins=await Admin.countDocuments();
@@ -377,7 +381,7 @@ class AdminController{
             }
         }
 
-        // Logout
+        // Logout  -------------------------------------------------
         async AdminLogout(req,res){
             try{
                 res.clearCookie("AdminToken");
@@ -389,7 +393,7 @@ class AdminController{
         } 
 
 
-        // specilazation page
+        // specilazation page -------------------------------------
         async specilazationPage(req,res){
             try{
                 res.render("admin/specialization",{
@@ -401,7 +405,9 @@ class AdminController{
                 console.log("Error in specilazationPage",error)
             }
         }
+        
 
+        // create specilazation ----------------------------------
         async createSpecialization(req,res){
             try{
                 const {name}=req.body;
@@ -415,7 +421,9 @@ class AdminController{
                 console.log("Error in createSpecialization",error)
             }
         }
+        
 
+        // all specialization -------------------------------------
         async allSpecializations(req,res){
             try{
                 const specializations=await Specialization.find();
@@ -428,7 +436,8 @@ class AdminController{
                 console.log("Error in allSpecialization",error)
             }
         }
-
+        
+        // delete specializtion ---------------------
         async DeleteSpecialization(req,res){
             try{
                 const {id}=req.params;
@@ -442,7 +451,7 @@ class AdminController{
         }
 
 
-        // admin add doctor page and logic will be implemented in future
+        // admin add doctor page and logic ------------------------------------------
 
         async addDoctorPage(req,res){
             try{
@@ -459,8 +468,8 @@ class AdminController{
 
         async addDoctor(req,res){
             try{
-                const {name,email,password,specialization}=req.body;
-                if(!name || !email || !password || !specialization){
+                const {name,email,password,specialization,experience,consultationFee}=req.body;
+                if(!name || !email || !password || !specialization || !experience || !consultationFee){
                     console.log("All fields are required")
                 }
 
@@ -470,12 +479,59 @@ class AdminController{
                     console.log("Doctor already exist")
                     return res.redirect("/add-doctor-page")
                 }
+
+                let image=""
+                let imageId=""
+
+                if(req.file){
+                    const uploadResult=await new Promise((resolve,reject)=>{
+                        cloudinary.uploader.upload_stream(
+                            {folder:"doctor_Profile"},
+                            (error,result)=>{
+                                if(error){
+                                    reject(error)
+                                }else(resolve(result))
+                            }
+                        ).end(req.file.buffer)
+                    })
+                    image=uploadResult.secure_url;
+                    imageId=uploadResult.public_id
+                }
+
+                // add date time field
+                const days=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+
+                let availableSclots=[]
+
+                days.forEach(day=>{
+                    const off=req.body[`off_${day}`]
+
+                    if(off !=="on"){
+
+                        const start=req.body[`startTime_${day}`]
+                        const end=req.body[`endTime_${day}`]
+
+                        if(start && end){
+
+                            availableSclots.push({
+                                day:day,
+                                startTime:start,
+                                endTime:end
+                            })
+                        }
+                    }
+                })
                 const doctor=new Doctor({
                     name,
                     email,
                     password:await bcrypt.hash(password,10),
                     specialization,
-                    is_verified:true
+                    is_verified:true,
+                    image,
+                    imageId,
+                    experience,
+                    consultationFee,
+                    availableSclots
                 })
                 const result=await doctor.save();
 
@@ -506,6 +562,127 @@ class AdminController{
                 console.log("error to get all doctor",error)
             }
         }
+
+        async singleDocterPage(req,res){
+            try{
+                const id=req.params.id;
+                const doctor =await Doctor.findById(id).populate("specialization")
+                res.render("admin/singleDoctorPage",{
+                    title:"single doctor page",
+                    user:req.user,
+                    doctor
+                })
+
+            }catch(error){
+                console.log(error,"error to get single doctor page")
+            }
+        }
+
+        // edit doctor page
+
+        async editDoctorPage(req,res){
+            try{
+                const id=req.params.id
+                const doctor=await Doctor.findById(id)
+                const specialization=await Specialization.find()
+
+                res.render("admin/editDoctorPage",{
+                    title:"edit page",
+                    data:doctor,
+                    specialization,
+                    user:req.user
+                })
+
+            }catch(error){
+                console.log(error,"error to get edit page")
+            }
+        }
+
+        async AdminUpdateDoctor(req,res){
+            try{
+                const id=req.params.id;
+
+                const {name,specialization,experience,consultationFee}=req.body;
+
+                const doctor=await Doctor.findById(id)
+
+                let image=doctor.image;
+                let imageId=doctor.imageId;
+
+                if(req.file){
+                    // delete old image from cloudinary
+                    if(doctor.imageId){
+                        await cloudinary.uploader.destroy(doctor.imageId);
+
+                    }
+
+                    const uploadResult=await new promish ((resolve,reject)=>{
+                        cloudinary.uploader.upload_stream(
+                            {folder:"doctor_Profile"},
+                            (error,result)=>{
+                                if(error){
+                                    reject(error)
+                                }else{
+                                    resolve(result)
+                                }
+                            }
+                        ).end(req.file.buffer)
+                    })
+
+                    image=uploadResult.secure_url;
+                    imageId=uploadResult.public_id
+                    }
+
+                    const days=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+                    
+                    let availableSclots=[]
+
+
+                    days.forEach(day=>{
+
+                    const off=req.body[`off_${day}`]
+
+                    if(off !== "on"){
+
+                        const start=req.body[`startTime_${day}`]
+                        const end=req.body[`endTime_${day}`]
+
+                        if(start && end){
+
+                            availableSclots.push({
+                                day:day,
+                                startTime:start,
+                                endTime:end
+                            })
+
+                        }
+
+                    }
+
+                })
+
+                    await Doctor.findByIdAndUpdate(id,{
+                        name,
+                        specialization,
+                        experience,
+                        consultationFee,
+                        availableSclots,
+                        image,
+                        imageId,
+                        availableSclots
+                    }) 
+
+                    console.log("Doctor updated successfully")
+                    res.redirect("/allDoctor")
+
+            }catch(error){
+                console.log(error,"error to to update doctor profile")
+            }
+        }
+
+
+
+
 
         async deleteDoctor(req,res){
             try{

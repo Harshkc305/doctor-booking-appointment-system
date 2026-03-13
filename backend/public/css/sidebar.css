@@ -1,0 +1,99 @@
+/* Sidebar */
+
+.sidebar-modern{
+background:linear-gradient(180deg,#1e3a8a,#172554);
+min-height:100vh;
+padding-top:10px;
+transition:0.3s;
+}
+
+
+/* Brand */
+
+.sidebar-brand{
+color:white;
+font-weight:600;
+font-size:18px;
+padding:18px;
+text-decoration:none;
+}
+.sidebar-brand:hover{
+text-decoration: none;
+color: white;
+}
+
+.sidebar-brand-text{
+margin-left:10px;
+}
+
+
+/* Divider */
+
+.sidebar-divider{
+border-top:1px solid rgba(255,255,255,0.1);
+margin:10px 0;
+}
+
+
+/* Heading */
+
+.sidebar-heading{
+color:#9ca3af;
+font-size:12px;
+text-transform:uppercase;
+padding:10px 20px;
+letter-spacing:1px;
+}
+
+
+/* Nav Items */
+
+.sidebar-modern .nav-item{
+margin:5px 10px;
+}
+
+
+.sidebar-modern .nav-link{
+display:flex;
+align-items:center;
+gap:12px;
+color:#e5e7eb;
+padding:10px 15px;
+border-radius:8px;
+font-size:14px;
+transition:0.3s;
+}
+
+
+/* Icon */
+
+.sidebar-modern .nav-link i{
+width:20px;
+text-align:center;
+font-size:15px;
+}
+
+
+/* Hover */
+
+.sidebar-modern .nav-link:hover{
+background:rgba(255,255,255,0.1);
+color:white;
+transform:translateX(4px);
+}
+
+
+/* Active */
+
+.sidebar-modern .nav-item.active .nav-link{
+background:white;
+color:#1e3a8a;
+font-weight:600;
+}
+
+
+/* Scroll */
+
+.sidebar-modern{
+overflow-y:auto;
+}

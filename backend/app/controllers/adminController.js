@@ -370,10 +370,34 @@ class AdminController{
         async AdminDashboard(req,res){
             try{
                 const totalAdmins=await Admin.countDocuments();
+                const totalDoctor=await Doctor.countDocuments();
+                const totalSpecialization=await Specialization.countDocuments()
+
+                // recent Admin user
+                const recentAdmin=await Admin.find()
+                .select("name email role")
+                .sort({createdAt: -1})
+                .limit(5);
+
+                // recent doctor
+
+                const recentDoctor=await Doctor.find()
+                .populate("specialization","name")
+                .select("name email specialization")
+                .sort({createdAt: -1})
+                .limit(5);
+
+
+
+
 
                 res.render("admin/adminDashboard",{
                     title:"Admin Dashboard",
                     totalAdmins:totalAdmins,
+                    totalDoctor,
+                    totalSpecialization,
+                    recentAdmin,
+                    recentDoctor,
                     user:req.user
                 })
             }catch(error){
@@ -550,11 +574,47 @@ class AdminController{
 
         async AllDoctor(req,res){
             try{
-                const doctor=await Doctor.find().populate("specialization")
+                const page=parseInt(req.query.page) || 1;
+                const limit=4;
+                const skip=(page-1)*limit;
+
+                // search
+                const search=req.query.search || "";
+
+                let filter={};
+
+
+                    const specialization=await Specialization.find({isDeleted:false})
+                    const matchedSpecialization=specialization.find(spe=>
+                        search.toLowerCase().includes(spe.name.toLowerCase())
+                    )
+
+                    if(matchedSpecialization){
+                        filter.specialization=matchedSpecialization._id;
+                    }else if(search){
+                        filter.name={$regex: search, $options:"i"};
+                    }
+
+                    const totalDoctor=await Doctor.countDocuments(filter)
+
+                    const totalPages =Math.ceil(totalDoctor/limit)
+
+
+                const doctor=await Doctor.find(filter).populate("specialization")
+                .sort({createdAt: -1})
+                .skip(skip)
+                .limit(limit)
+
                 res.render("admin/allDoctorPage",{
                     title:"All doctor page",
                     data:doctor,
-                    user:req.user
+                    user:req.user,
+                    currentPage:page,
+                    totalPages,
+                    search,
+                    limit,
+                    totalDoctor
+                    
 
                 })
 
@@ -616,7 +676,7 @@ class AdminController{
 
                     }
 
-                    const uploadResult=await new promish ((resolve,reject)=>{
+                    const uploadResult=await new Promise((resolve,reject)=>{
                         cloudinary.uploader.upload_stream(
                             {folder:"doctor_Profile"},
                             (error,result)=>{

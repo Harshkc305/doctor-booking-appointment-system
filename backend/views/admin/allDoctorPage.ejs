@@ -2,141 +2,178 @@
 <%- include("../admin/layout/sidebar")%>
 <%- include("../admin/layout/navbar") %>   
 
-<link rel="stylesheet" href="/css/allDoctor.css">
-
-<div class="container-fluid mt-4">
-
-<!-- PAGE HEADER -->
-
-<div class="card category-card">
-
-<div class="card-header d-flex justify-content-between align-items-center">
-<h4 class="page-title">👨‍⚕️ Doctors</h4>
-
-<span class="count-badge">
-Total Doctors: <%= data.length %>
-</span>
-</div>
 
 
-</div>
+    <div class="container-fluid mt-4">
 
+        <!-- PAGE HEADER -->
 
-<!-- DOCTOR TABLE -->
+        <div class="card category-card">
 
-<div class="card doctor-card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h4 class="page-title">👨‍⚕️ Doctors</h4>
 
-<div class="card-body">
+                <span class="count-badge">
+                Total Doctors: <%= totalDoctor %>
+                </span>
+            </div>
+        </div>
 
-<div class="table-responsive">
+        <!-- DOCTOR TABLE -->
 
-<table class="table doctor-table align-middle">
+        <div class="card doctor-card">
 
-<thead>
-<tr>
-<th>#</th>
-<th>Doctor</th>
-<th>Email</th>
-<th>Specialization</th>
-<th class="text-end">Actions</th>
-</tr>
-</thead>
+            <div class="card-body table-responsive">
 
-<tbody>
+                    <div class="card-body">
+                        <form method="GET" action="/allDoctor" class="row g-2 mb-3">
+                            <div class="col-md-4">
+                                <input type="text" name="search" value="<%=search|| ''%>" class="form-control" placeholder="search name and specialization"/>
 
-<% if (data.length > 0) { %>
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn search-btn w-100">Search</button>
+                            </div>
+                        </form>
 
-<% data.forEach((item,index)=>{ %>
+                        <table class="table doctor-table align-middle">
 
-<tr>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Doctor</th>
+                                    <th>Email</th>
+                                    <th>Specialization</th>
+                                    <th class="text-end">Actions</th>
+                                </tr>
+                            </thead>
 
-<td class="index"><%= index+1 %></td>
+                                <tbody>
 
-<td>
+                                    <% if (data.length > 0) { %>
 
-<div class="doctor-info">
+                                    <% data.forEach((item,index)=>{ %>
 
-<img
-src="<%= item.image ? item.image : '/img/undraw_profile.svg' %>"
-class="doctor-avatar">
+                                <tr>
 
-<div class="doctor-name">
-<%= item.name %>
-</div>
+                                    <td class="index"><%= (currentPage - 1) * limit + index + 1 %></td>
 
-</div>
+                                        <td>
 
-</td>
+                                            <div class="doctor-info">
 
-<td class="email">
-<%= item.email %>
-</td>
+                                            <img
+                                            src="<%= item.image ? item.image : '/img/undraw_profile.svg' %>"
+                                            class="doctor-avatar">
 
-<td>
+                                                <div class="doctor-name">
+                                                <%= item.name %>
+                                                </div>
 
-<span class="spec-badge">
+                                            </div>
 
-<%= item.specialization ? item.specialization.name : "N/A" %>
+                                        </td>
 
-</span>
+                                        <td class="email">
+                                        <%= item.email %>
+                                        </td>
 
-</td>
+                                        <td>
 
-<td class="text-end">
-<div class="action-group">
-    <a
-    href="/single-Docter-Page/<%= item._id %>"
-    class="action-btn view"
-    title="View"
-    >
-    <i class="fas fa-eye"></i>
-    </a>
-    <a
-    href="/edit-Doctor-Page/<%= item._id %>"
-    class="action-btn edit"
-    title="Edit"
-    >
-    <i class="fas fa-pen"></i>
-    </a>
+                                            <span class="spec-badge">
 
+                                                <%= item.specialization ? item.specialization.name : "N/A" %>
 
+                                            </span>
 
-    <a
-    href="/delete-Doctor/<%= item._id %>"
-    onclick="return confirm('Delete this Doctor?')"
-    class="delete-btn"
-    title="Delete">
-    
-    <i class="fas fa-trash"></i>
-    
-    </a>
-</div>
+                                        </td>
 
-</td>
+                                    <td class="text-end">
+                                        <div class="action-group">
+                                            <a
+                                            href="/single-Docter-Page/<%= item._id %>"
+                                            class="action-btn view"
+                                            title="View"
+                                            >
+                                            <i class="fas fa-eye"></i>
+                                            </a>
 
-</tr>
+                                            <a
+                                            href="/edit-Doctor-Page/<%= item._id %>"
+                                            class="action-btn edit"
+                                            title="Edit"
+                                            >
+                                            <i class="fas fa-pen"></i>
+                                            </a>
 
-<% }) %>
+                                            <a
+                                            href="/delete-Doctor/<%= item._id %>"
+                                            onclick="return confirm('Delete this Doctor?')"
+                                            class="delete-btn"
+                                            title="Delete">
+                                            
+                                            <i class="fas fa-trash"></i>
+                                            
+                                            </a>
+                                        </div>
 
-<% } else { %>
+                                    </td>
 
-<tr>
-<td colspan="5" class="empty-state">
-No doctors available
-</td>
-</tr>
+                                </tr>
 
+                                    <% }) %>
+
+                                    <% } else { %>
+
+                                    <tr>
+                                        <td colspan="5" class="empty-state">
+                                        No doctors available
+                                        </td>
+                                    </tr>
+
+                                    <% } %>
+
+                                </tbody>
+
+                        </table>
+
+                    </div>
+
+            </div>
+
+    </div>
+
+    <% if(totalPages > 1){ %>
+<nav class="d-flex justify-content-center mt-4">
+    <ul class="pagination pagination-rounded">
+
+        <!-- Previous -->
+        <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
+            <a class="page-link" href="/allDoctor?page=<%= currentPage - 1 %>&search=<%= search %>">
+                &laquo;
+            </a>
+        </li>
+
+        <!-- Page Numbers -->
+        <% for (let i = 1; i <= totalPages; i++) { %>
+            <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                <a class="page-link" href="/allDoctor?page=<%= i %>&search=<%= search %>">
+                    <%= i %>
+                </a>
+            </li>
+        <% } %>
+
+        <!-- Next -->
+        <li class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
+            <a class="page-link" href="/allDoctor?page=<%= currentPage + 1 %>&search=<%= search %>">
+                &raquo;
+            </a>
+        </li>
+
+    </ul>
+</nav>
 <% } %>
 
-</tbody>
-
-</table>
-
-</div>
-
-</div>
-
-</div>
 
 </div>
 

@@ -3,35 +3,34 @@ import "./Header.css"
 export default function Header() {
   return (
     <>
-      <nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      
+      <header id="header" className="header fixed-top">
+        <div className="branding d-flex align-items-cente">
 
-      <ul class="navbar-nav mx-auto mb-2 mb-lg-0 bg">
-        <li class="nav-item">
-          <a class="nav-link active" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="/about">About</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="alldoctor">all Doctor</a>
-        </li>
-       
-      </ul>
-      
-      <form class="d-flex" role="search">
-        
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
+      <div className="container position-relative d-flex align-items-center justify-content-between">
+        <a href="/" className="logo d-flex align-items-center">
+          
+          <h1 className="sitename">DocBook</h1>
+        </a>
+
+        <nav id="navmenu" className="navmenu">
+          <ul>
+            <li><a href="/" className="active">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/department">Departments</a></li>
+            <li><a href="/service">Services</a></li>
+            <li><a href="/alldoctor">Doctors</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="testimonials.html">Testimonials</a></li>
+            <li><a href="appointment.html">Appointment</a></li>
+            
+          </ul>
+          <i className="mobile-nav-toggle d-xl-none bi bi-list"></i>
+        </nav>
+
+      </div>
+
     </div>
-  </div>
-</nav>
+      </header>
     </>
   )
 }

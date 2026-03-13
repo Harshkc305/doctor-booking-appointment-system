@@ -3,70 +3,135 @@ import "./Footer.css"
 export default function Footer() {
   return (
     <>
-      <footer className="footer">
-      <div className="container">
-        <div className="row gy-4">
+      <footer id="footer" className="footer-16 footer position-relative">
 
-          {/* About */}
-          <div className="col-lg-3 col-md-6">
-            <h5 className="footer-title">About Us</h5>
-            <p className="footer-text">
-              We are passionate gamers dedicated to providing the best gaming
-              and event experience.
-            </p>
-          </div>
+    <div className="container">
 
-          {/* Game & Event */}
-          <div className="col-lg-3 col-md-6">
-            <h5 className="footer-title">Game & Event</h5>
-            <ul className="footer-list">
-              <li>Upcoming Events</li>
-              <li>Live Streaming</li>
-              <li>Game Fest 2026</li>
-              <li>Pixel Party</li>
-            </ul>
-          </div>
+      <div className="footer-main" data-aos="fade-up" data-aos-delay="100">
+        <div className="row align-items-start">
 
-          {/* Terms */}
-          <div className="col-lg-3 col-md-6">
-            <h5 className="footer-title">Terms & Policies</h5>
-            <ul className="footer-list">
-              <li>Policies</li>
-              <li>Terms of Use</li>
-              <li>Support</li>
-              <li>Privacy</li>
-            </ul>
-          </div>
+          <div className="col-lg-5">
+            <div className="brand-section">
+              <a href="index.html" className="logo d-flex align-items-center mb-4">
+                <span className="sitename">Clinic</span>
+              </a>
+              <p className="brand-description">Crafting exceptional digital experiences through thoughtful design and
+                innovative solutions that elevate your brand presence.</p>
 
-          {/* Social + Subscribe */}
-          <div className="col-lg-3 col-md-6">
-            <h5 className="footer-title">Follow Us</h5>
-
-            {/* <div className="d-flex gap-3 mb-3">
-              <a href="#" className="footer-icon"><BsInstagram /></a>
-              <a href="#" className="footer-icon"><FiTwitter /></a>
-              <a href="#" className="footer-icon"><FaFacebookF /></a>
-              <a href="#" className="footer-icon"><FaLinkedin /></a>
-            </div> */}
-
-            <div className="input-group footer-subscribe">
-              <input
-                type="email"
-                className="form-control"
-                placeholder="Subscribe Me"
-              />
-              <button className="btn footer-btn">Subscribe</button>
+              <div className="contact-info mt-5">
+                <div className="contact-item">
+                  <i className="bi bi-geo-alt"></i>
+                  <span>123 Creative Boulevard, Design District, NY 10012</span>
+                </div>
+                <div className="contact-item">
+                  <i className="bi bi-telephone"></i>
+                  <span>+1 (555) 987-6543</span>
+                </div>
+                <div className="contact-item">
+                  <i className="bi bi-envelope"></i>
+                  <span>hello@designstudio.com</span>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Bottom */}
-        <hr className="footer-divider" />
-        <p className="text-center footer-copy">
-          © 2026 event World. All rights reserved.
-        </p>
+          <div className="col-lg-7">
+            <div className="footer-nav-wrapper">
+              <div className="row">
+
+                <div className="col-6 col-lg-3">
+                  <div className="nav-column">
+                    <h6>Studio</h6>
+                    <nav className="footer-nav">
+                      <a href="#!">Our Story</a>
+                      <a href="#!">Design Process</a>
+                      <a href="#!">Portfolio</a>
+                      <a href="#!">Case Studies</a>
+                      <a href="#!">Awards</a>
+                    </nav>
+                  </div>
+                </div>
+
+                <div className="col-6 col-lg-3">
+                  <div className="nav-column">
+                    <h6>Services</h6>
+                    <nav className="footer-nav">
+                      <a href="#!">Brand Identity</a>
+                      <a href="#!">Web Design</a>
+                      <a href="#!">Mobile Apps</a>
+                      <a href="#!">Digital Strategy</a>
+                      <a href="#!">Consultation</a>
+                    </nav>
+                  </div>
+                </div>
+
+                <div className="col-6 col-lg-3">
+                  <div className="nav-column">
+                    <h6>Resources</h6>
+                    <nav className="footer-nav">
+                      <a href="#!">Design Blog</a>
+                      <a href="#!">Style Guide</a>
+                      <a href="#!">Free Assets</a>
+                      <a href="#!">Tutorials</a>
+                      <a href="#!">Inspiration</a>
+                    </nav>
+                  </div>
+                </div>
+
+                <div className="col-6 col-lg-3">
+                  <div className="nav-column">
+                    <h6>Connect</h6>
+                    <nav className="footer-nav">
+                      <a href="#!">Start Project</a>
+                      <a href="#!">Schedule Call</a>
+                      <a href="#!">Join Newsletter</a>
+                      <a href="#!">Follow Updates</a>
+                      <a href="#!">Partnership</a>
+                    </nav>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
-    </footer>
+
+    </div>
+
+    <div className="footer-bottom">
+      <div className="container">
+        <div className="bottom-content" data-aos="fade-up" data-aos-delay="300">
+          <div className="row align-items-center">
+
+            <div className="col-lg-6">
+              <div className="copyright">
+                <p>© <span className="sitename">Clinic</span>. All rights reserved.</p>
+              </div>
+            </div>
+
+            <div className="col-lg-6">
+              <div className="legal-links">
+                <a href="#!">Privacy Policy</a>
+                <a href="#!">Terms of Service</a>
+                <a href="#!">Cookie Policy</a>
+                <div className="credits">
+                  
+                  Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>. Distributed by <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </footer>
+
+  
+ 
     </>
   )
 }

@@ -294,6 +294,13 @@ class doctorController{
 
 
         if(req.file){
+            // delete old image 
+             if(doctor.imageId){
+                await cloudinary.uploader.destroy(doctor.imageId);
+
+            }
+
+
             const uploadResult=await new Promise((resolve,reject)=>{
                 cloudinary.uploader.upload_stream(
                     {folder:"doctor_Profile"},

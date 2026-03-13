@@ -14,6 +14,18 @@ const patientSchema= new mongoose.Schema({
         type:String,
         required:true
     },
+    password:{
+        type:String,
+        required:true
+    },
+     image:{
+        type:String,
+        default:"" 
+    },
+    imgaeId:{
+        type:String,
+        default:""  
+    },
     age:{
         type:Number,
         required:true   
@@ -31,5 +43,5 @@ const patientSchema= new mongoose.Schema({
     versionKey:false
 })
 
-const pastientModel=mongoose.model("pastient",patientSchema);
+const pastientModel=mongoose.model("patient",patientSchema);
 module.exports=pastientModel;

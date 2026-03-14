@@ -1,18 +1,32 @@
-import React, { useEffect } from "react";
-import { AllDoctors } from "../../Redux/DoctorSlice";
+import React, { useEffect, useState } from "react";
+import { AllDoctors,fetchSpecialization } from "../../Redux/DoctorSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { FcNext } from "react-icons/fc";
+import { FcPrevious } from "react-icons/fc";
 import "../AllDoctor/AllDoctor.css";
 
 export default function AllDoctor() {
 
 const dispatch = useDispatch();
 
-const doctors = useSelector((state) => state.doctor.doctors);
+const {doctors,totalPage,currentPage,specialization} = useSelector((state) => state.doctor);
+
+const [search,setSearch]=useState("")
+const [selectedSpecialization,setSelectedpecialization]=useState("")
+const [page,setPage]=useState(1)
+
+useEffect(()=>{
+  dispatch(fetchSpecialization())
+},[dispatch])
 
 useEffect(() => {
-dispatch(AllDoctors());
-}, [dispatch]);
+dispatch(AllDoctors({
+  search,
+  specialization:selectedSpecialization,
+  page
+}));
+}, [dispatch,search,selectedSpecialization,page]);
 
 return (
 <>
@@ -48,6 +62,43 @@ return (
     <section id="doctors" class="doctors section">
 
       <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div className="row mb-4 align-items-center">
+
+          {/* Search */}
+          <div className="col-md-6">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="🔍 Search Doctor..."
+              value={search}
+              onChange={(e)=>{
+                setSearch(e.target.value);
+                setPage(1)
+              }}
+            />
+          </div>
+
+          {/* Specialization */}
+          <div className="col-md-6">
+            <select
+              className="form-select"
+              value={selectedSpecialization}
+              onChange={(e)=>{
+                setSelectedpecialization(e.target.value);
+                setPage(1)
+              }}
+            >
+              <option value="">All Specializations</option>
+
+              {specialization.map((spe)=>(
+                <option key={spe._id} value={spe._id}>
+                  {spe.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+        </div>
 
         <div class="row gy-4">
           {doctors.length > 0 ? (
@@ -79,6 +130,50 @@ return (
 
                 )}
             </div>
+            <div className="d-flex justify-content-center mt-4">
+
+  <nav>
+    <ul className="pagination">
+
+      {/* Previous Button */}
+      <li className={`page-item ${page === 1 ? "disabled" : ""}`}>
+        <button
+          className="page-link"
+          onClick={() => setPage(page - 1)}
+        >
+          <FcPrevious />
+        </button>
+      </li>
+
+      {/* Page Numbers */}
+      {[...Array(totalPage)].map((_, index) => (
+        <li
+          key={index}
+          className={`page-item ${page === index + 1 ? "active" : ""}`}
+        >
+          <button
+            className="page-link"
+            onClick={() => setPage(index + 1)}
+          >
+            {index + 1}
+          </button>
+        </li>
+      ))}
+
+      {/* Next Button */}
+      <li className={`page-item ${page === totalPage ? "disabled" : ""}`}>
+        <button
+          className="page-link"
+          onClick={() => setPage(page + 1)}
+        >
+          <FcNext />
+        </button>
+      </li>
+
+    </ul>
+  </nav>
+
+</div>
             </div>
 
     </section>

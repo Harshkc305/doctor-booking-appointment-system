@@ -1,5 +1,5 @@
 const Doctor=require("../models/doctorModel")
-
+const Specialization=require("../models/specialization")
 
 
 class ApiDoctorController{
@@ -45,6 +45,21 @@ class ApiDoctorController{
 
         }catch(error){
             console.log("error in getting Doctor", error);
+            return res.status(500).json({
+                message:"internal server error"
+            })
+        }
+    }
+
+    async allspecialization(req,res){
+        try{
+            const specialization= await Specialization.find().sort({createdAt:-1})
+
+            return res.status(200).json({
+                data:specialization
+            })
+
+        }catch(error){
             return res.status(500).json({
                 message:"internal server error"
             })

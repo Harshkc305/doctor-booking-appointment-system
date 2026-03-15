@@ -37,8 +37,7 @@ export default function Home() {
               </h1>
 
               <p className="hero-description" data-aos="fade-right" data-aos-delay="400">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.
+                Your health is our top priority. We offer comprehensive medical consultations and modern treatments tailored to your needs. Book an appointment today and experience world-class healthcare at your doorstep.
               </p>
 
               <div className="hero-stats mb-4" data-aos="fade-right" data-aos-delay="500">
@@ -60,7 +59,7 @@ export default function Home() {
               </div>
 
               <div className="hero-actions" data-aos="fade-right" data-aos-delay="600">
-                <a href="appointment.html" className="btn btn-primary">Book Appointment</a>
+                <a href="/alldoctor" className="btn btn-primary">Book Appointment</a>
                 <a href="https://www.youtube.com/watch?v=QdBZY2fkU-0" className="btn btn-outline glightbox">
                   <i className="bi bi-play-circle me-2"></i>
                   Watch Our Story

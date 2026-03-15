@@ -66,6 +66,25 @@ class ApiDoctorController{
         }
     }
 
+    async SingleDoctor(req,res){
+        try{
+            const {id}=req.params;
+            const doctor=await Doctor.findById(id).populate("specialization","name")
+
+            return res.status(200).json({
+                message:"single data fetch successfull",
+                data:doctor
+            })
+
+        }catch(error){
+            return res.status(500).json({
+                message:"internal server error"
+            })
+        }
+    }
+
+    
+
 }
 
 module.exports= new ApiDoctorController()

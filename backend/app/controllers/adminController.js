@@ -11,7 +11,7 @@ const transporter= require("../config/emailConfig")
 // const { generateToken, generateRefreshToken } = require("../helper/token")
 
 const Specialization=require("../models/specialization")
-
+const Appointment=require("../models/appointmentModel")
 
 class AdminController{
 
@@ -367,41 +367,128 @@ class AdminController{
         }
 
         // Admin Dashboard   -----------------------------------------
-        async AdminDashboard(req,res){
-            try{
-                const totalAdmins=await Admin.countDocuments();
-                const totalDoctor=await Doctor.countDocuments();
-                const totalSpecialization=await Specialization.countDocuments()
+        // Admin Dashboard Logic Update
+async AdminDashboard(req, res) {
+    try {
+        const totalAdmins = await Admin.countDocuments();
+        const totalDoctor = await Doctor.countDocuments();
+        const totalSpecialization = await Specialization.countDocuments();
 
-                // recent Admin user
-                const recentAdmin=await Admin.find()
+        const totalAppointment = await Appointment.countDocuments();
+        const pendingAppointment = await Appointment.countDocuments({ status: "pending" });
+        const confirmedAppointment = await Appointment.countDocuments({ status: "confirmed" });
+        const cancelledAppointment = await Appointment.countDocuments({ status: "cancelled" });
+
+        // --- TOTAL REVENUE LOGIC ---
+       
+        const revenueAgg = await Appointment.aggregate([
+    
+            { $match: { status: "confirmed" } },
+
+            // 2. Doctor collection ke saath join karein (Doctor details lane ke liye)
+            {
+                $lookup: {
+                    from: "doctors",           // Aapke doctors collection ka asli naam (usually plural)
+                    localField: "doctorId",    // Appointment model ki field
+                    foreignField: "_id",       // Doctor model ki field
+                    as: "doctorDetails"
+                }
+            },
+            { $unwind: "$doctorDetails" },
+
+            // 4. Ab calculation karein (doctorDetails.consultationFee use karke)
+            {
+                $group: {
+                    _id: null,
+                    total: { $sum: "$doctorDetails.consultationFee" }
+                }
+            }
+        ]);
+
+        // Result access karne ke liye:
+        const totalRevenue = revenueAgg.length > 0 ? revenueAgg[0].total : 0;
+
+            const recentBooking = await Appointment.aggregate([
+                // 1. Sort by newest first
+                { $sort: { createdAt: -1 } },
+
+                // 2. Limit to top 5
+                { $limit: 5 },
+
+                // 3. Lookup Patient Details (Population ki jagah)
+                {
+                    $lookup: {
+                        from: "patients", // Aapke Patient collection ka naam 
+                        localField: "patientId",
+                        foreignField: "_id",
+                        as: "patientId"
+                    }
+                },
+                { $unwind: "$patientId"},
+
+                // 4. Lookup Doctor Details
+                {
+                    $lookup: {
+                        from: "doctors", // Doctor collection ka naam
+                        localField: "doctorId",
+                        foreignField: "_id",
+                        as: "doctorId"
+                    }
+                },
+                { $unwind: "$doctorId"},
+
+                // 5. Lookup Specialization (Nested Population)
+                {
+                    $lookup: {
+                        from: "specializations", // Specialization collection ka naam
+                        localField: "doctorId.specialization",
+                        foreignField: "_id",
+                        as: "doctorId.specialization"
+                    }
+                },
+                { $unwind:"$doctorId.specialization"},
+
+                // 6. Project: Sirf wahi fields rakhein jo dashboard ke liye chahiye
+                {
+                    $project: {
+                        "patientId.name": 1,
+                        "doctorId.name": 1,
+                        "doctorId.specialization.name": 1,
+                        "appointmentDate": 1,
+                        "appointmentTime": 1,
+                        "status": 1
+                    }
+                }
+            ]);
+
+            const recentAdmin = await Admin.find()
                 .select("name email role")
-                .sort({createdAt: -1})
+                .sort({ createdAt: -1 })
                 .limit(5);
 
-                // recent doctor
-
-                const recentDoctor=await Doctor.find()
-                .populate("specialization","name")
+            const recentDoctor = await Doctor.find()
+                .populate("specialization", "name")
                 .select("name email specialization")
-                .sort({createdAt: -1})
+                .sort({ createdAt: -1 })
                 .limit(5);
 
-
-
-
-
-                res.render("admin/adminDashboard",{
-                    title:"Admin Dashboard",
-                    totalAdmins:totalAdmins,
-                    totalDoctor,
-                    totalSpecialization,
-                    recentAdmin,
-                    recentDoctor,
-                    user:req.user
-                })
-            }catch(error){
-                console.log("Error in AdminDashboard",error)
+            res.render("admin/adminDashboard", {
+                title: "Admin Dashboard",
+                totalAdmins,
+                totalDoctor,
+                totalSpecialization,
+                recentAdmin,
+                recentDoctor,
+                recentBooking,
+                user: req.user,
+                totalAppointment,
+                pendingAppointment,
+                confirmedAppointment,
+                cancelledAppointment,
+                totalRevenue 
+            });
+            } catch (error) {
+                console.log("Error in AdminDashboard", error);
             }
         }
 

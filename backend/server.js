@@ -61,6 +61,10 @@ app.use("/api",ApiDoctorRouter)
 const ApiPatisentRouter=require("./app/routes/apiPatisentRouter")
 app.use("/api",ApiPatisentRouter)
 
+// api appointment router
+const ApiApointmentRouter=require("./app/routes/apiAppointmentRouter")
+app.use("/api",ApiApointmentRouter)
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, ()=>{

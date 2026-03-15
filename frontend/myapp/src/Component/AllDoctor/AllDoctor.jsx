@@ -39,10 +39,7 @@ return (
               <div class="col-lg-8">
               <h1 class="heading-title">Doctors</h1>
               <p class="mb-0">
-                Odio et unde deleniti. Deserunt numquam exercitationem. Officiis quo
-                odio sint voluptas consequatur ut a odio voluptatem. Sit dolorum
-                debitis veritatis natus dolores. Quasi ratione sint. Sit quaerat
-                ipsum dolorem.
+                Your health is our top priority. We offer comprehensive medical consultations and modern treatments tailored to your needs. Book an appointment today and experience world-class healthcare at your doorstep.
               </p>
             </div>
           </div>
@@ -120,7 +117,7 @@ return (
                         <span>{doctor.experience}+ Years Experience</span>
                       </div>
                     </div>
-                    <a href="appointment.html" class="btn-appointment">Book Appointment</a>
+                    <Link to={`/singledoctor/${doctor._id}`} class="btn-appointment">Book Appointment</Link>
                   </div>
                 </div>
               </div>

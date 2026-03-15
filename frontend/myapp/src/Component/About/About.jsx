@@ -13,10 +13,10 @@ export default function About() {
             <div class="col-lg-8">
               <h1 class="heading-title">About</h1>
               <p class="mb-0">
-                Odio et unde deleniti. Deserunt numquam exercitationem. Officiis quo
-                odio sint voluptas consequatur ut a odio voluptatem. Sit dolorum
-                debitis veritatis natus dolores. Quasi ratione sint. Sit quaerat
-                ipsum dolorem.
+                Quality healthcare you can trust. Dedicated to providing compassionate 
+                treatment. We offer expert consultations and modern medical 
+                facilities for your family. Your health is our priority. Professional 
+                care starts here.
               </p>
             </div>
           </div>
@@ -25,7 +25,7 @@ export default function About() {
       <nav class="breadcrumbs">
         <div class="container">
           <ol>
-            <li><a href="index.html">Home</a></li>
+            <li><a href="/">Home</a></li>
             <li class="current">About</li>
           </ol>
         </div>

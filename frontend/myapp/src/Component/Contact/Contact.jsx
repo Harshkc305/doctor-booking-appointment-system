@@ -13,10 +13,7 @@ export default function Contact() {
             <div className="col-lg-8">
               <h1 className="heading-title">Contact</h1>
               <p className="mb-0">
-                Odio et unde deleniti. Deserunt numquam exercitationem. Officiis quo
-                odio sint voluptas consequatur ut a odio voluptatem. Sit dolorum
-                debitis veritatis natus dolores. Quasi ratione sint. Sit quaerat
-                ipsum dolorem.
+                Advanced healthcare solutions at your reach. Modern diagnostics and care. Our clinic provides personalized plans and emergency support for you and your family. Experience better results. Health experts for you. Quality care matters.
               </p>
             </div>
           </div>
@@ -25,7 +22,7 @@ export default function Contact() {
       <nav className="breadcrumbs">
         <div className="container">
           <ol>
-            <li><a href="index.html">Home</a></li>
+            <li><a href="/">Home</a></li>
             <li className="current">Contact</li>
           </ol>
         </div>
@@ -45,7 +42,7 @@ export default function Contact() {
                 </div>
                 <div className="info-content">
                   <h3>Our Address</h3>
-                  <p>1842 Maple Avenue, Portland, Oregon 97204</p>
+                  <p>1842 Maple Avenue, India, 828109</p>
                 </div>
               </div>
 
@@ -55,8 +52,8 @@ export default function Contact() {
                 </div>
                 <div className="info-content">
                   <h3>Email Address</h3>
-                  <p>info@example.com</p>
-                  <p>contact@example.com</p>
+                  <p>harshkc305@gmail.com</p>
+                  <p>+91 8789106615</p>
                 </div>
               </div>
 

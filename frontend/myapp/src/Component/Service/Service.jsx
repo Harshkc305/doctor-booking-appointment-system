@@ -13,10 +13,7 @@ export default function Service() {
             <div class="col-lg-8">
               <h1 class="heading-title">Services</h1>
               <p class="mb-0">
-                Odio et unde deleniti. Deserunt numquam exercitationem. Officiis quo
-                odio sint voluptas consequatur ut a odio voluptatem. Sit dolorum
-                debitis veritatis natus dolores. Quasi ratione sint. Sit quaerat
-                ipsum dolorem.
+                Comprehensive healthcare solutions tailored for you. Expert medical treatments. From diagnostic testing to advanced therapy, our team provides excellence in every procedure. Dedicated support for all. Advanced medical tools. Trust our expertise.
               </p>
             </div>
           </div>
@@ -25,7 +22,7 @@ export default function Service() {
       <nav class="breadcrumbs">
         <div class="container">
           <ol>
-            <li><a href="index.html">Home</a></li>
+            <li><a href="/">Home</a></li>
             <li class="current">Services</li>
           </ol>
         </div>

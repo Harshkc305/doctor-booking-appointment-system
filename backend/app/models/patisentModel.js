@@ -22,7 +22,7 @@ const patientSchema= new mongoose.Schema({
         type:String,
         default:"" 
     },
-    imgaeId:{
+    imageId:{
         type:String,
         default:""  
     },

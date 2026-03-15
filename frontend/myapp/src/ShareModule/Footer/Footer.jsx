@@ -13,7 +13,7 @@ export default function Footer() {
           <div className="col-lg-5">
             <div className="brand-section">
               <a href="index.html" className="logo d-flex align-items-center mb-4">
-                <span className="sitename">Clinic</span>
+                <span className="sitename">DocBook</span>
               </a>
               <p className="brand-description">Crafting exceptional digital experiences through thoughtful design and
                 innovative solutions that elevate your brand presence.</p>
@@ -21,15 +21,15 @@ export default function Footer() {
               <div className="contact-info mt-5">
                 <div className="contact-item">
                   <i className="bi bi-geo-alt"></i>
-                  <span>123 Creative Boulevard, Design District, NY 10012</span>
+                  <span>India </span>
                 </div>
                 <div className="contact-item">
                   <i className="bi bi-telephone"></i>
-                  <span>+1 (555) 987-6543</span>
+                  <span>+91 8789106615</span>
                 </div>
                 <div className="contact-item">
                   <i className="bi bi-envelope"></i>
-                  <span>hello@designstudio.com</span>
+                  <span>harshkc305@gmail.com</span>
                 </div>
               </div>
             </div>
@@ -107,7 +107,7 @@ export default function Footer() {
 
             <div className="col-lg-6">
               <div className="copyright">
-                <p>© <span className="sitename">Clinic</span>. All rights reserved.</p>
+                <p>© <span className="sitename">DocBook</span>. All rights reserved.</p>
               </div>
             </div>
 
@@ -118,7 +118,7 @@ export default function Footer() {
                 <a href="#!">Cookie Policy</a>
                 <div className="credits">
                   
-                  Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>. Distributed by <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                  Designed by <a href="https://github.com/Harshkc305">Harsh Choudhary</a>
                 </div>
               </div>
             </div>

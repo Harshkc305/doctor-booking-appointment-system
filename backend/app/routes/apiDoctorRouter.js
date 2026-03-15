@@ -5,6 +5,7 @@ const router=express.Router()
 
 router.get("/getAllDoctor",ApiDoctorController.getAllDoctor)
 router.get("/AllSpecialization",ApiDoctorController.allspecialization)
+router.get("/SingleDoctor/:id",ApiDoctorController.SingleDoctor)
 
-const Specialization=require("../models/specialization")
+
 module.exports=router

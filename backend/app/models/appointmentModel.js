@@ -1,47 +1,40 @@
 const mongoose=require("mongoose");
 
 const appointmentSchema= new mongoose.Schema({
-    doctor:{
+    doctorId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"doctor",
-        required:true
+        // required:true
     },
-    patient:{
+    patientId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"patient",
-        required:true
+        // required:true
     },
     appointmentDate:{
         type:Date,
-        required:true
+        // required:true
     },
     appointmentTime:{
         type:String,
-        required:true
+        // required:true
+    },
+    paymentMode:{
+        type:String,
+        default:"online"
     },
     status:{
         type:String,
         enum:["pending","confirmed","completed","cancelled"],
         default:"pending"
     },
-    paymentMode:{
-        type:String,
-        enum:["cash","online"],
-        default:"cash"
+    orderId: {
+        type: String,
+        required: true
     },
-    paymentStatus:{
-        type:String,
-        enum:["pending","paid"],
-        default:"pending"
-    },
-    paymentAmount:{
-        type:Number,
-        required:true
-    }
-
-},{
-    timestamps:true,
-    versionKey:false
+    // Signature aur Payment ID store karna achhi practice hai
+    paymentId: { type: String },
+    signature: { type: String }
 },{
     timestamps:true,
     versionKey:false

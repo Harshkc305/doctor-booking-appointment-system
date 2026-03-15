@@ -3,20 +3,96 @@
 <%- include("../doctor/layout/navbar") %>   
 
 <div class="container-fluid mt-4">
-   <div class="card shadow mb-4">
-
-    <div class="card-body">
-      
-        <h5 class="mb-1">welcome,<strong><%=user.name%></strong></h5>
-        <p class="text-muted mb-0"><%= user.email %></p>
-        <!-- <p class="text-muted mb-0"><%= user.specialization %></p> -->
-        
+    <div class="card shadow mb-4 border-left-primary">
+        <div class="card-body">
+            <h5 class="mb-1">Welcome, <strong><%= user.name %></strong></h5>
+            <p class="text-muted mb-0">Manage your patients and appointments here.</p>
+        </div>
     </div>
+
     <div class="row">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Revenue</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">₹<%= totalRevenue %></div>
+                </div>
+            </div>
+        </div>
 
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Bookings</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800 Resale"><%= totalAppointments %></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Pending</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800"><%= pendingCount %></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-danger shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Cancelled</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800"><%= cancelledCount %></div>
+                </div>
+            </div>
+        </div>
     </div>
 
-   </div> 
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 bg-primary text-white">
+            <h6 class="m-0 font-weight-bold">Recent Patient Appointments</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Patient Name</th>
+                            <th>Email</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if(recentAppointments.length > 0) { %>
+                            <% recentAppointments.forEach(app => { %>
+                                <tr>
+                                    <td><%= app.patientId ? app.patientId.name : 'N/A' %></td>
+                                    <td><%= app.patientId ? app.patientId.email : 'N/A' %></td>
+                                    <td><%= new Date(app.appointmentDate).toDateString() %></td>
+                                    <td><%= app.appointmentTime %></td>
+                                    <td>
+                                        <% if(app.status == 'confirmed') { %>
+                                            <span class="badge badge-success">Confirmed</span>
+                                        <% } else if(app.status == 'pending') { %>
+                                            <span class="badge badge-warning">Pending</span>
+                                        <% } else { %>
+                                            <span class="badge badge-danger">Cancelled</span>
+                                        <% } %>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="5" class="text-center">No patients found.</td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
-   
+
 <%- include('../doctor/layout/footer') %>

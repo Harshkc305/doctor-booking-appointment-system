@@ -40,6 +40,29 @@
             </div>
         </div>
 
+        <div class="col-md-3 mb-4">
+            <div class="card shadow border-left-danger">
+                <div class="card-body">
+                    <h6 class="text-danger">Bookings</h6>
+                    <h3><%= totalAppointment %></h3>
+                    <small>
+                        ✔ <%= confirmedAppointment %> |
+                        ⏳ <%= pendingAppointment %> |
+                        ❌ <%= cancelledAppointment %>
+                    </small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card shadow border-left-success">
+                <div class="card-body">
+                    <h6 class="text-success">Revenue</h6>
+                    <h3>₹ <%= totalRevenue %></h3>
+                </div>
+            </div>
+        </div>
+
 
     </div>
 
@@ -95,6 +118,45 @@
                     </table>
                 </div>
             </div>
+            <div class="card shadow mb-4">
+    <div class="card-header text-white bg-primary">
+        🩺 Recent Bookings
+    </div>
+    <div class="card-body table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Patient Name</th>
+                    <th>Doctor Name</th>
+                    <th>Specialization</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (recentBooking && recentBooking.length > 0) { %>
+                    <% recentBooking.forEach(u => { %>
+                        <tr>
+                            <td><%= u.patientId ? u.patientId.name : 'N/A' %></td>
+                            <td><%= u.doctorId ? u.doctorId.name : 'N/A' %></td>
+                            <td>
+                                <%= (u.doctorId && u.doctorId.specialization) 
+                                    ? u.doctorId.specialization.name 
+                                    : 'General' %>
+                            </td>
+                            <td>
+                                <span class="badge badge-info"><%= u.status %></span>
+                            </td>
+                        </tr>
+                    <% }) %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="4" class="text-center">No recent bookings found.</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>
 
 </div>
    

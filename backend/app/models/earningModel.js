@@ -4,21 +4,16 @@ const earningSchema = new mongoose.Schema({
     doctor: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "doctor",
-        required: true
+        
     },
     appointment:{
         type: mongoose.Schema.Types.ObjectId,
         ref: "appointment",
-        required: true
+        
     },
     amount: {
         type: Number,
-        required: true
-    },
-    paymentMode:{
-        type: String,
-        enum: ["cash", "online"],
-        default: "cash"
+        
     },
     date:{
         type: Date,

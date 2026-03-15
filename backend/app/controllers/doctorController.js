@@ -6,21 +6,57 @@ const jwt=require("jsonwebtoken")
 const bcrypt=require("bcryptjs")
 const cloudinary=require("../config/cloudunaryConfig")
 const Specialization = require("../models/specialization")
-
+const Appointment=require("../models/appointmentModel")
 
 
 class doctorController{
-    async doctorDashboard(req,res){
-        try{
-            res.render("doctor/doctorDashboard",{
-                title:"doctor dashboard page",
-                user:req.user
-            })
+    async doctorDashboard(req, res) {
+    try {
+        const doctorId = req.user._id;
 
-        }catch(error){
-            console.log("error to get doctorpannel")
-        }
+        // Total Appointments 
+        const totalAppointments = await Appointment.countDocuments({ doctorId });
+
+        // Status wise counts
+        const pendingCount = await Appointment.countDocuments({ doctorId, status: "pending" });
+        const confirmedCount = await Appointment.countDocuments({ doctorId, status: "confirmed" });
+        const cancelledCount = await Appointment.countDocuments({ doctorId, status: "cancelled" });
+
+        // Total Revenue
+       
+        const revenueAgg = await Appointment.aggregate([
+            { $match: { doctorId: doctorId, status: "confirmed" } },
+            {
+                $group: {
+                    _id: null,
+                    total: { $sum: req.user.consultationFee } 
+                }
+            }
+        ]);
+        const totalRevenue = revenueAgg.length > 0 ? revenueAgg[0].total : 0;
+
+        // 4. Recent Patients/Appointments List
+        const recentAppointments = await Appointment.find({ doctorId })
+            .populate("patientId", "name email") 
+            .sort({ createdAt: -1 })
+            .limit(10);
+
+        res.render("doctor/doctorDashboard", {
+            title: "Doctor Dashboard",
+            user: req.user,
+            totalAppointments,
+            pendingCount,
+            confirmedCount,
+            cancelledCount,
+            totalRevenue,
+            recentAppointments
+        });
+
+    } catch (error) {
+        console.log("Error in doctorDashboard:", error);
+        res.status(500).send("Internal Server Error");
     }
+}
 
     async doctorotpPage(req,res){
         try{

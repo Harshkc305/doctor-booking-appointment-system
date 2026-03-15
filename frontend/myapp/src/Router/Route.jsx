@@ -8,7 +8,11 @@ import AllDoctor from '../Component/AllDoctor/AllDoctor'
 import Departments from '../Departments/Departments'
 import Service from '../Component/service/Service'
 import Contact from '../Component/Contact/Contact'
-
+import SingleDoctor from '../Component/SingleDoctor/SingleDoctor'
+import Register from '../Component/Register/Register'
+import Login from '../Component/Login/Login'
+import BookAppointment from '../Component/BookAppointment/BookAppointment'
+import MyBooking from '../Component/MyBooking/MyBooking'
 export default function Rout() {
   return (
     <>
@@ -21,6 +25,11 @@ export default function Rout() {
         <Route path="/department" element={<Departments/>}/>
         <Route path='/service' element={<Service/>}/>
         <Route path="/contact" element={<Contact/>}/>
+        <Route path="/singledoctor/:id" element={<SingleDoctor/>}/>
+        <Route path="/register" element={<Register/>}/>
+        <Route path="/login" element={<Login/>}/>
+        <Route path="/bookappintment/:id" element={<BookAppointment/>}/>
+        <Route path="/my-bookings" element={<MyBooking/>}/>
 
       </Routes>
       <Footer/>

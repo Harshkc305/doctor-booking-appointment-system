@@ -81,7 +81,7 @@ export default function Home() {
           <div className="col-lg-6">
             <div className="hero-visual" data-aos="fade-left" data-aos-delay="400">
               <div className="main-image">
-                <img src="./src/assets/img/health/staff-10.webp" alt="Modern Healthcare Facility" className="img-fluid"/>
+                <img src="./src/assets/img/health/staff-3.webp" alt="Modern Healthcare Facility" className="img-fluid"/>
                 <div className="floating-card appointment-card">
                   <div className="card-icon">
                     <i className="bi bi-calendar-check"></i>
@@ -89,7 +89,7 @@ export default function Home() {
                   <div className="card-content">
                     <h6>Next Available</h6>
                     <p>Today 2:30 PM</p>
-                    <small>Dr. Sarah Johnson</small>
+                    <small>Dr. Shreya</small>
                   </div>
                 </div>
                 <div className="floating-card rating-card">
